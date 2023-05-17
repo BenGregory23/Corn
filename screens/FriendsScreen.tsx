@@ -3,6 +3,7 @@ import React from 'react'
 import {View, Text} from "react-native"
 import { FlatList } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native'
+import FriendCard from '../components/FriendCard'
 
 
 const listOfSettings = [
@@ -24,25 +25,23 @@ const listOfSettings = [
     }
 ]
 
-const SettingsScreen = () => {
+const FriendsScreen = () => {
 
     return(
-        <View>
-            <FlatList style={styles.list} data={listOfSettings} renderItem={({item}) => <Text style={styles.item}>{item.name}</Text>} keyExtractor={(item) => item.name} />
+        <View style={styles.container}>
+            
+            <FriendCard />
+            <FriendCard/>           
         </View>
     )
 
 }
 
 const styles = StyleSheet.create({
-    list: {
+    container:{
+        backgroundColor: "black",
         height: "100%",
-        width: "100%",
-    },
-    item: {
-        backgroundColor: "#f7f7f7",
-        padding: 20,       
-    },
+    }
 });
 
-export default SettingsScreen
+export default FriendsScreen;

@@ -1,14 +1,23 @@
-import { View,Text } from "react-native";
+import { View,Text, TouchableOpacity, } from "react-native";
 import React from "react";
 import { StyleSheet } from "react-native";
-
+import {
+  Accelerometer,
+  Barometer,
+  DeviceMotion,
+  Gyroscope,
+  LightSensor,
+  Magnetometer,
+  MagnetometerUncalibrated,
+  Pedometer,
+} from 'expo-sensors';
+import Movie from "../components/Movie";
 
 export default function HomeScreen() {
+  
     return (
       <View style={styles.container}>
-        <View style={styles.centered}>
-          <Text style={styles.title}>Page d'accueil avec les imports PAS automatique (merci VSCODE)</Text>
-        </View>
+          <Movie/>
       </View>
     )
 };
@@ -16,15 +25,9 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "darksalmon",
+      backgroundColor: "black",
       display: "flex",
       justifyContent: "center",
       alignItems:"center"
-    },
-    centered: {
-      alignItems: "center"
-    },
-    title: {
-      fontSize: 20
     }
 });
