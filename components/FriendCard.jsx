@@ -10,7 +10,7 @@ const FriendCard = () => {
         <View style={styles.container}>
             <Text style={styles.Text}>{friend.name}</Text>
 
-
+     
         </View>
     )
 
@@ -19,12 +19,13 @@ const FriendCard = () => {
 const styles = StyleSheet.create({
     container:{
         padding: 20,
-        margin:2,
-        backgroundColor:"white"
+        marginBottom:1,
+        backgroundColor:"#232323",
     },
     Text:{
         fontSize: 20,
         fontWeight: "500",
+        color: "#fff",
     }
 })
 

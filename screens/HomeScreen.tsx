@@ -1,16 +1,6 @@
 import { View,Text, TouchableOpacity, } from "react-native";
 import React from "react";
 import { StyleSheet } from "react-native";
-import {
-  Accelerometer,
-  Barometer,
-  DeviceMotion,
-  Gyroscope,
-  LightSensor,
-  Magnetometer,
-  MagnetometerUncalibrated,
-  Pedometer,
-} from 'expo-sensors';
 import Movie from "../components/Movie";
 
 export default function HomeScreen() {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import SwipeableCard from './SwipeableCard';
+import { Heart, Send } from 'lucide-react-native';
 
 const Movie = () => {
   const [currentMovie, setCurrentMovie] = useState({});
@@ -78,10 +79,10 @@ const Movie = () => {
       <View style={styles.buttonContainer}>
         
         <TouchableOpacity style={styles.button} onPress={handleSuperLikePress}>
-          <Text style={styles.buttonText}>Super Like</Text>
+          <Heart/>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleNextMovie}>
-          <Text style={styles.buttonText}>Next</Text>
+          <Send/>
         </TouchableOpacity>
       </View>
     </View>

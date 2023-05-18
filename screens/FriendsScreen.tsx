@@ -2,36 +2,25 @@
 import React from 'react'
 import {View, Text} from "react-native"
 import { FlatList } from 'react-native-gesture-handler'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, TouchableHighlight } from 'react-native'
 import FriendCard from '../components/FriendCard'
 
 
-const listOfSettings = [
-    {
-        name: "Notifications",
-        icon: "notifications"
-    },
-    {
-        name: "Account",
-        icon: "account"
-    },
-    {
-        name: "Language",
-        icon: "language"
-    },
-    {
-        name: "About",
-        icon: "about"
-    }
-]
 
-const FriendsScreen = () => {
+
+const FriendsScreen = ({navigation}) => {
+    
 
     return(
         <View style={styles.container}>
             
-            <FriendCard />
-            <FriendCard/>           
+            <TouchableHighlight onPress={() => navigation.navigate("Movies")}>
+                <FriendCard/>   
+            </TouchableHighlight>
+            <TouchableHighlight onPress={() => navigation.navigate("Movies")}>
+                <FriendCard/>   
+            </TouchableHighlight>
+                   
         </View>
     )
 

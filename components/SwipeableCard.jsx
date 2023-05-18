@@ -73,7 +73,9 @@ const SwipeableCard = ({movie, poster, next}) => {
 const styles = StyleSheet.create({
   card: {
     margin: 25,
-    width:350,
+    width: 350,
+    maxWidth: "80%",
+
     height: "75%",
     borderRadius: 10,
     backgroundColor: '#FFC107',
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 10,
+    objectFit: "cover",
   }
 });
 

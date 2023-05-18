@@ -4,8 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import FriendsScreen from '../screens/FriendsScreen';
-import AccountScreen from '../screens/AccountScreen';
-import { Home, User2, Users2, Clapperboard } from 'lucide-react-native';
+import MoviesScreen from '../screens/MoviesScreen';
+import { Home, User2, Users2, Clapperboard, LayoutList} from 'lucide-react-native';
+import FriendsNavigator from './FriendsNavigator';
 
 
 const Navigation = () => {
@@ -16,6 +17,7 @@ const Navigation = () => {
           <NavigationContainer>
       <Tab.Navigator
         screenOptions={({ route }) => ({
+          headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
             
             if(focused){
@@ -24,12 +26,12 @@ const Navigation = () => {
             else size = 25
 
             if (route.name === 'Home') {
-              return <View style={screenOptions.tabView}><Home size={size} color={color} /></View>
+              return <View style={screenOptions.tabView}><Clapperboard size={size} color={color} /></View>
             }
-            else if (route.name === "Account"){
-              return <View style={screenOptions.tabView}><User2 size={size} color={color} /></View>
+            else if (route.name === "Movie"){
+              return <View style={screenOptions.tabView}><LayoutList size={size} color={color} /></View>
             }
-            else if(route.name === "Friends"){
+            else if(route.name === "FriendsNavigator"){
               return <View style={screenOptions.tabView}><Users2 size={size} color={color} /></View>
             }
 
@@ -40,7 +42,7 @@ const Navigation = () => {
           tabBarInactiveTintColor: 'black',
         })}
       > 
-        <Tab.Screen name="Account" component={AccountScreen}
+        <Tab.Screen name="Movie" component={MoviesScreen}
           options={{
             title:"",
             
@@ -52,7 +54,7 @@ const Navigation = () => {
             
           }}
         />
-        <Tab.Screen name="Friends" component={FriendsScreen}
+        <Tab.Screen name="FriendsNavigator" component={FriendsNavigator}
           options={{
             title:"",
             
