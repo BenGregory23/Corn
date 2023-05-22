@@ -31,7 +31,10 @@ const SwipeableCard = ({movie, poster, next}) => {
               nextRef.current(true); // Use the ref to call `next`
             });
           } else if (gesture.dx < -swipeThreshold) {
-            // Swiped left
+
+            
+
+              // Swiped left
             Animated.timing(pan, {
               toValue: { x: -500, y: 0 },
               duration: 200,
@@ -40,6 +43,10 @@ const SwipeableCard = ({movie, poster, next}) => {
               pan.setValue({ x: 0, y: 0 })
               nextRef.current(false)
             });
+
+
+
+          
           } else {
             // Reset position
             Animated.spring(pan, {

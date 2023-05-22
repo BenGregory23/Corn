@@ -79,10 +79,10 @@ const Movie = () => {
       <View style={styles.buttonContainer}>
         
         <TouchableOpacity style={styles.button} onPress={handleSuperLikePress}>
-          <Heart/>
+          <Heart color='black' />
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={handleNextMovie}>
-          <Send/>
+          <Send color='black'/>
         </TouchableOpacity>
       </View>
     </View>
