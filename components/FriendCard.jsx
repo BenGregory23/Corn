@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
 
-const FriendCard = () => {
+const FriendCard = ({navigation}) => {
     const friend = {
         name: 'John Doe',
     };
@@ -9,7 +9,9 @@ const FriendCard = () => {
     return (
         <View style={styles.container}>
             <Text style={styles.Text}>{friend.name}</Text>
-
+            <TouchableHighlight style={styles.button} onPress={() => navigation.navigate("Movies")}>
+                   <Text >Films</Text>  
+            </TouchableHighlight>
      
         </View>
     )
@@ -21,11 +23,22 @@ const styles = StyleSheet.create({
         padding: 20,
         marginBottom:1,
         backgroundColor:"#232323",
+        flexDirection: "row",
+        justifyContent: "space-between",    
     },
     Text:{
         fontSize: 20,
         fontWeight: "500",
         color: "#fff",
+    }, 
+    button:{
+        backgroundColor: "white",
+        borderRadius: 100,
+        padding: 10,
+        color: "black",
+        width: 100,
+        alignItems: "center",
+        justifyContent: "center",
     }
 })
 

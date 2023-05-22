@@ -14,12 +14,12 @@ const FriendsScreen = ({navigation}) => {
     return(
         <View style={styles.container}>
             
-            <TouchableHighlight onPress={() => navigation.navigate("Movies")}>
-                <FriendCard/>   
-            </TouchableHighlight>
-            <TouchableHighlight onPress={() => navigation.navigate("Movies")}>
-                <FriendCard/>   
-            </TouchableHighlight>
+            
+                <FriendCard navigation={navigation}/>   
+        
+            
+                <FriendCard navigation={navigation}/>   
+            
                    
         </View>
     )
