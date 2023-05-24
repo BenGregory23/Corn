@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import SwipeableCard from './SwipeableCard';
 import { Heart, Send } from 'lucide-react-native';
+import CustomSwiper from "./CustomSwiper";
 
 const Movie = () => {
   const [currentMovie, setCurrentMovie] = useState({});
@@ -70,11 +70,8 @@ const Movie = () => {
 
   return (
     <View style={styles.container}>
-       {currentMovie.poster_path && (
-        <SwipeableCard movie={currentMovie} next={handleNextMovie} poster={currentMovie.poster_path} />
-      )}
-    
-     
+
+      <CustomSwiper/>
 
       <View style={styles.buttonContainer}>
         
@@ -126,6 +123,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     color: 'black',
+  },
+  cardPoster: {
+    width: "100%",
+    height: "100%",
+    borderRadius: 10,
+    objectFit: "cover",
   },
 });
 
