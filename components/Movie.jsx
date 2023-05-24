@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Heart, Send } from 'lucide-react-native';
+import Like from './Like';
 import CustomSwiper from "./CustomSwiper";
 
 const Movie = () => {
@@ -11,7 +12,6 @@ const Movie = () => {
   
 
   useEffect(() => {
-    console.log("load")
     if(loaded == false){
       fetchRandomMovies();
      
@@ -21,19 +21,22 @@ const Movie = () => {
 
 
  
-
   const fetchRandomMovies = async () => {
     try {
       const apiKey = '42b8a7922cc2d03ed720a24cba029744';
       const genres = '12,28'; // Specify your desired genre IDs (e.g., 12 for Adventure, 28 for Action)
-      const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genres}`;
+      const page = Math.floor(Math.random() * 100) + 1; // Generate a random page number between 1 and 100
+     
+      const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genres}&page=${page}`;
 
       const response = await fetch(apiUrl);
       const data = await response.json();
 
       if (response.ok) {
+        const randomIndex = Math.floor(Math.random() * data.results.length); // Choose a random movie from the results
         setMovies(data.results);
-        setCurrentMovie(data.results[0]);
+        console.log(data.results)
+        setCurrentMovie(data.results[randomIndex]);
         setLoaded(true)
       } else {
         throw new Error(data.status_message);
@@ -42,6 +45,7 @@ const Movie = () => {
       console.error('Error fetching random movies:', error);
     }
   };
+
 
   const handleNextMovie = (like) => {
     
@@ -82,6 +86,7 @@ const Movie = () => {
           <Send color='black'/>
         </TouchableOpacity>
       </View>
+      <Like/>
     </View>
   );
 };
