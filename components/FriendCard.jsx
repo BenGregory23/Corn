@@ -10,7 +10,7 @@ const FriendCard = ({navigation}) => {
         <View style={styles.container}>
             <Text style={styles.Text}>{friend.name}</Text>
             <TouchableHighlight style={styles.button} onPress={() => navigation.navigate("Movies")}>
-                   <Text >Films</Text>  
+                   <Text>Films</Text>  
             </TouchableHighlight>
      
         </View>
@@ -20,9 +20,12 @@ const FriendCard = ({navigation}) => {
 
 const styles = StyleSheet.create({
     container:{
+        
+        justifyContent: "center",
+        alignItems: "center",
         padding: 20,
-        marginBottom:1,
-        backgroundColor:"#232323",
+    
+        backgroundColor:"black",
         flexDirection: "row",
         justifyContent: "space-between",    
     },
@@ -30,6 +33,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "500",
         color: "#fff",
+        
     }, 
     button:{
         backgroundColor: "white",

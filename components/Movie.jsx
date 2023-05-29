@@ -1,23 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Heart, Send } from 'lucide-react-native';
-import Like from './Like';
+import Swiper from 'react-native-deck-swiper';
+import Loader from "./Loader";
+import AnimatedLottieView from 'lottie-react-native';
+
 import CustomSwiper from "./CustomSwiper";
 
 const Movie = () => {
   const [currentMovie, setCurrentMovie] = useState({});
   const [movies, setMovies] = useState([]);
-  const [counter, setCounter] = useState(0);
   const [loaded, setLoaded] = useState(false)
-  
+  const [showDetails, setShowDetails] = useState(false);
+
+
+
 
   useEffect(() => {
     if(loaded == false){
       fetchRandomMovies();
-     
     }
     
   }, [loaded]);
+
+
+  useEffect(() => {
+    console.log("showDetails", showDetails)
+  }, [showDetails]);
+
+  
 
 
  
@@ -34,10 +45,11 @@ const Movie = () => {
 
       if (response.ok) {
         const randomIndex = Math.floor(Math.random() * data.results.length); // Choose a random movie from the results
-        setMovies(data.results);
-        console.log(data.results)
+        setLoaded(false); // Reset loaded state to false
+        setMovies(data.results); // Set movies state to the results
+        console.log(data.results);
         setCurrentMovie(data.results[randomIndex]);
-        setLoaded(true)
+        setLoaded(true);
       } else {
         throw new Error(data.status_message);
       }
@@ -46,48 +58,59 @@ const Movie = () => {
     }
   };
 
-
-  const handleNextMovie = (like) => {
-    
-    if(counter === movies.length - 1){
-      console.log("fetching")
-      fetchRandomMovies().then(() => {
-        setCounter(0) 
-        setLoaded(false)
-      } )
-      // Reset the counter if we're at the end of the array
-    } else {
-      const newCounter = counter + 1;
-      setCounter(newCounter); // Increment the counter
-      setCurrentMovie(movies[newCounter]); // Use the newCounter value directly
-    }
-  };
-  
-  
-
- 
-
-  const handleSuperLikePress = () => {
-    console.log('Super Like button pressed');
-    // Your code for handling the super like button press
-  };
+  if(!loaded){
+    return (
+        <></>
+    )
+  }
 
   return (
     <View style={styles.container}>
+      
+      <View style={styles.swiper}>
 
-      <CustomSwiper/>
-
-      <View style={styles.buttonContainer}>
-        
-        <TouchableOpacity style={styles.button} onPress={handleSuperLikePress}>
-          <Heart color='black' />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleNextMovie}>
-          <Send color='black'/>
-        </TouchableOpacity>
-      </View>
-      <Like/>
+        {//<CustomSwiper movies={movies}   refresh={refresh}/>
+        }
+          
+          <Swiper
+            cards={movies}
+            renderCard={(card) => {
+                return ( 
+                    <View style={styles.card}>
+                      
+                    
+                      
+                        <Image style={styles.image} source={{uri: `https://image.tmdb.org/t/p/w500/${card.poster_path}`}}/>
+                    </View>
+                )
+            }}
+            onSwiped={(cardIndex) => {
+           
+              if(cardIndex == movies.length - 3){
+                setLoaded(false);
+              }
+            }}
+            cardIndex={0}
+            backgroundColor="transparent"
+            stackSize= {3}
+            disableBottomSwipe={true}
+            disableTopSwipe={true}
+            verticalSwipe={false}
+            stackSeparation={10}
+            animateCardOpacity={true}
+            onTapCard={(cardIndex) =>{ 
+              setShowDetails(!showDetails);
+              // re render the card
+              setCurrentMovie(movies[cardIndex])
+            }}
+            >
+               
+        </Swiper>
+      
+      </View> 
     </View>
+    
+
   );
 };
 
@@ -95,46 +118,63 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    width: "100%",
+    height: "100%",
+    
   },
-  poster: {
-    width: 200,
-    height: 300,
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    width: 300,
-    height: '10%',
-  },
-  button: {
+  card: {
+    borderColor: "white",
+    borderWidth: 1,
+    width: "100%",
+    height: "100%",
+    maxHeight: "85%",
     backgroundColor: 'white',
-    padding: 5,
-    borderRadius: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 120,
-    height: 50,
+    margin: 0,
+    borderRadius: 10,
+},
+image: {
+  minWidth: "100%",
+  width: "100%",
+  height: "100%",
+  borderRadius: 10,
+},
+  swiper:{
+    height:"100%",
+    width:"100%",
+    marginBottom: 20,
+    justifyContent: "center",
+    alignItems: "center",
   },
-  buttonText: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: 'black',
-  },
+ 
   cardPoster: {
     width: "100%",
     height: "100%",
     borderRadius: 10,
     objectFit: "cover",
   },
+  details: {
+    display: "none",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+  },
+  detailsActive: {
+     
+    position: "relative",
+    top: 0,
+    left: 0,
+    width: "90%",
+    backgroundColor: "rgba(255,255,255,0.9)",
+    borderRadius: 10,
+    zIndex: 1,
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    
+  }
 });
 
 export default Movie;

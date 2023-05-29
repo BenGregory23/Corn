@@ -1,18 +1,26 @@
 import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
-import HomeScreen from './screens/HomeScreen';
 import Navigation from './navigation/Navigation';
+import React, { useState } from 'react';
+import ConnectionNavigation from './navigation/ConnectionNavigation';
 
 
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(true)
+
+  if(!isLoggedIn) {
+    return (
+      <ConnectionNavigation setIsLoggedIn={setIsLoggedIn}/>
+    )
+  }
+
+
   return (
     <>
         <StatusBar style="light" />
-      <SafeAreaView style={styles.topSafeArea} />
-        <Navigation>
-        </Navigation>
-    
+        <SafeAreaView style={styles.topSafeArea} />
+        <Navigation/>
     </>
   
   );

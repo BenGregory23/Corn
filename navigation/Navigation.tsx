@@ -14,18 +14,18 @@ const Navigation = () => {
 
     return (
 
-          <NavigationContainer>
+      <NavigationContainer>
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={({ route }) => ({
           headerShown: false,
+          tabBarStyle: screenOptions.tabBarStyle,
           tabBarIcon: ({ focused, color, size }) => {
            
             if(focused){
-              size = 27
-              
+              size = 32
             }
-            else size = 25
+            else size = 28
 
             if (route.name === 'Home') {
               return <View style={screenOptions.tabView}><Clapperboard size={size} color={color}   /></View>
@@ -41,7 +41,7 @@ const Navigation = () => {
             return <View><Home size={size} color={color} /></View>;
           },
           tabBarActiveTintColor: 'red',
-          tabBarInactiveTintColor: 'black',
+          tabBarInactiveTintColor: 'white',
         })}
       > 
         <Tab.Screen name="Movie" component={MoviesScreen}
@@ -72,8 +72,10 @@ const Navigation = () => {
 
 const screenOptions = {
     tabBarStyle:{
-      backgroundColor:'#0000ff',
-      height:100,
+      backgroundColor:'black',
+      height:95,
+      borderTopWidth:0,
+      paddingTop:11,
     },
     tabBarItemStyle:{
       backgroundColor:'#00ff00',
@@ -81,8 +83,8 @@ const screenOptions = {
       borderRadius:10,
     },
     tabView:{
-      margin:20
-    }
+      margin:20,
+    },
   };
 
 
