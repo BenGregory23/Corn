@@ -7,10 +7,12 @@ import UserMovies from '../components/UserMovies'
 
 const MoviesScreen = () => {
     return(
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
         
             <View style={styles.header}>
-                <AnimatedLottieView source={require("../assets/bucket.json")} autoPlay loop style={{width: 200, height: 200, marginLeft:7}}/>
+                {
+                    <AnimatedLottieView source={require("../assets/bucket.json")} autoPlay loop style={{width: 200, height: 200, marginLeft:7}}/>
+                }
                 <Text style={styles.Title}>My Movies</Text>
 
                 <UserGenres />
@@ -18,7 +20,7 @@ const MoviesScreen = () => {
 
             <UserMovies />
 
-        </View>
+        </ScrollView>
     )
 }
 
@@ -33,11 +35,13 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginVertical: 10,
     },header:{
-        flex: 1,
+        
         alignItems: 'center',
         justifyContent: 'center',
-        height: "30%",
+       
+        minHeight: 350,
         width: "100%",
+        
     }
 })
 

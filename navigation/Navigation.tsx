@@ -73,9 +73,9 @@ const Navigation = () => {
 const screenOptions = {
     tabBarStyle:{
       backgroundColor:'black',
-      height:95,
+      height:85,
       borderTopWidth:0,
-      paddingTop:11,
+      paddingTop:6,
     },
     tabBarItemStyle:{
       backgroundColor:'#00ff00',

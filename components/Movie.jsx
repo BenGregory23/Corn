@@ -8,7 +8,7 @@ import AnimatedLottieView from 'lottie-react-native';
 import CustomSwiper from "./CustomSwiper";
 
 const Movie = () => {
-  const [currentMovie, setCurrentMovie] = useState({});
+ 
   const [movies, setMovies] = useState([]);
   const [loaded, setLoaded] = useState(false)
   const [showDetails, setShowDetails] = useState(false);
@@ -29,6 +29,23 @@ const Movie = () => {
   }, [showDetails]);
 
   
+  const swipeRight = (title, poster_path) => {
+    const url = "https://evening-shore-83627.herokuapp.com/users/6464ca0fea2801eac89e4d23/movies";
+
+    fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({name: title, poster: poster_path})
+    })
+    .then(data => {
+      
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+  }
 
 
  
@@ -47,8 +64,7 @@ const Movie = () => {
         const randomIndex = Math.floor(Math.random() * data.results.length); // Choose a random movie from the results
         setLoaded(false); // Reset loaded state to false
         setMovies(data.results); // Set movies state to the results
-        console.log(data.results);
-        setCurrentMovie(data.results[randomIndex]);
+      
         setLoaded(true);
       } else {
         throw new Error(data.status_message);
@@ -77,9 +93,7 @@ const Movie = () => {
             renderCard={(card) => {
                 return ( 
                     <View style={styles.card}>
-                      
-                    
-                      
+  
                         <Image style={styles.image} source={{uri: `https://image.tmdb.org/t/p/w500/${card.poster_path}`}}/>
                     </View>
                 )
@@ -89,6 +103,12 @@ const Movie = () => {
               if(cardIndex == movies.length - 3){
                 setLoaded(false);
               }
+            }}
+            onSwipedRight={(cardIndex, card) => {
+              console.log("swiped right")
+              console.log(card)
+            
+              swipeRight(card.title, card.poster_path)
             }}
             cardIndex={0}
             backgroundColor="transparent"
@@ -101,7 +121,7 @@ const Movie = () => {
             onTapCard={(cardIndex) =>{ 
               setShowDetails(!showDetails);
               // re render the card
-              setCurrentMovie(movies[cardIndex])
+           
             }}
             >
                

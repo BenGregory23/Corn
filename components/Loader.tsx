@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, Dimensions } from 'react-native'
 import AnimatedLottieView from 'lottie-react-native'
 
 const Loader = () => {
@@ -16,22 +16,27 @@ const Loader = () => {
         "Searching for movie gems...",
       ]);
 
+
+
       const [loadingLotties, setLoadingLotties] = useState([
         require("../assets/speaker.json"),
         require("../assets/bucket.json"),
+        require("../assets/popcorn.json"),
       ]);
 
       const [randomSentence, setRandomSentence] = useState(loadingSentences[Math.floor(Math.random() * loadingSentences.length)]);
    
       useEffect(() => {
+        
         const interval = setInterval(() => {
             setRandomSentence(loadingSentences[Math.floor(Math.random() * loadingSentences.length)]);
 
-        }, 5000);
+        }, 5000); 
         return () => clearInterval(interval);   
         }, []);
 
     return(
+        //fading animation
     <View style={styles.container}>
         <AnimatedLottieView source={
             loadingLotties[Math.floor(Math.random() * loadingLotties.length)]
@@ -48,13 +53,14 @@ const Loader = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        position: "absolute",
+        alignItems: 'center',
         backgroundColor: "black",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
+        justifyContent: 'center',
+        position: "absolute",
+        top: 0,
+        left: 0,
         width: "100%",
-        zIndex: 1,
+        height: Dimensions.get("window").height,
     } ,
     text:{
         color:"white",

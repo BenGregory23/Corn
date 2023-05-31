@@ -1,52 +1,76 @@
 import Loader from "./Loader";
 import { useEffect, useState, useRef } from "react";
-import { View, ScrollView, Text, StyleSheet } from "react-native";
+import { View, ScrollView, Text, StyleSheet, Image } from "react-native";
+import { useIsFocused } from '@react-navigation/native';
 
 const UserMovies = () => {
   const [loaded, setLoaded] = useState(false);
   const [userMovies, setUserMovies] = useState([
     "Action",
-    "Adventure",
-    "Animation",
-    "Biography",
-    "Comedy",
-    "Animation",
-    "Biography",
-    "Comedy",
-    "Animation",
-    "Biography",
-    "Comedy",
-    "Crime",
+    
   ]);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoaded(true);
-    }, 2000);
-  }, []);
+    
+    if(!loaded){
+    fetch("https://evening-shore-83627.herokuapp.com/users/6464ca0fea2801eac89e4d23/movies", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setUserMovies(data);
+        
+          setLoaded(true);
+        
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }
+  }, [loaded]);
 
+
+  useEffect(() => {
+    if(isFocused){
+      setLoaded(false)
+    }
+  }, [isFocused])
+
+  
   if (!loaded) {
     return <Loader />;
   }
 
   return (
-    <View style={styles.container}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        directionalLockEnabled={true}
+
+      <View
+        style={styles.scrollContent}
       >
-        {userMovies.map((movie, index) => {
+
+
+        {userMovies.reverse().map((movie, index) => {
           return (
             <View style={styles.movie} key={index}>
-              <Text style={{ color: "white" }}>{movie}</Text>
+             
+              <Image source={{
+                uri:"https://image.tmdb.org/t/p/w500/" + movie.poster
+              }} style={styles.poster}/>
             </View>
           );
         })}
         <Text style={styles.text}>
             Add more movies!
         </Text>
-      </ScrollView>
-    </View>
+      </View>
+   
   );
 };
 
@@ -73,12 +97,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
     margin: 10,
   },
+  poster:{
+    width: 100,
+    height: 150,
+    borderColor: "white",
+    borderWidth: 1,
+    borderRadius: 10,
+  },
   text:{
-        color: "white",
-        fontSize: 30,
-        fontWeight: "bold",
-        marginVertical: 50,
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginVertical: 10,
+    textAlign: "center",
   }
+  
 });
 
 export default UserMovies;
