@@ -1,35 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Heart, Send } from 'lucide-react-native';
+import { View, StyleSheet, Image, Dimensions} from 'react-native';
 import Swiper from 'react-native-deck-swiper';
-import Loader from "./Loader";
-import AnimatedLottieView from 'lottie-react-native';
 
-import CustomSwiper from "./CustomSwiper";
 
 const Movie = () => {
  
   const [movies, setMovies] = useState([]);
   const [loaded, setLoaded] = useState(false)
   const [showDetails, setShowDetails] = useState(false);
-
-
-
+  const [cardIndexState, setCardIndexState] = useState(0);
 
   useEffect(() => {
     if(loaded == false){
       fetchRandomMovies();
     }
-    
   }, [loaded]);
 
-
-  useEffect(() => {
-    console.log("showDetails", showDetails)
-  }, [showDetails]);
-
   
-  const swipeRight = (title, poster_path) => {
+  const swipeRight = (title, poster_path, id) => {
     const url = "https://evening-shore-83627.herokuapp.com/users/6464ca0fea2801eac89e4d23/movies";
 
     fetch(url, {
@@ -37,7 +25,7 @@ const Movie = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({name: title, poster: poster_path})
+      body: JSON.stringify({name: title, poster: poster_path, id_tmdb:id})
     })
     .then(data => {
       
@@ -46,7 +34,6 @@ const Movie = () => {
       console.error("Error:", error);
     });
   }
-
 
  
   const fetchRandomMovies = async () => {
@@ -61,10 +48,10 @@ const Movie = () => {
       const data = await response.json();
 
       if (response.ok) {
-        const randomIndex = Math.floor(Math.random() * data.results.length); // Choose a random movie from the results
+        
         setLoaded(false); // Reset loaded state to false
         setMovies(data.results); // Set movies state to the results
-      
+        
         setLoaded(true);
       } else {
         throw new Error(data.status_message);
@@ -82,35 +69,34 @@ const Movie = () => {
 
   return (
     <View style={styles.container}>
-      
+      <Image style={styles.backgroundImage} source={{uri: `https://image.tmdb.org/t/p/w500/${movies[cardIndexState].backdrop_path}`}} blurRadius={6}/>
       <View style={styles.swiper}>
-
-        {//<CustomSwiper movies={movies}   refresh={refresh}/>
-        }
-          
           <Swiper
             cards={movies}
             renderCard={(card) => {
                 return ( 
                     <View style={styles.card}>
-  
+
                         <Image style={styles.image} source={{uri: `https://image.tmdb.org/t/p/w500/${card.poster_path}`}}/>
                     </View>
                 )
             }}
             onSwiped={(cardIndex) => {
-           
+
+              console.log(cardIndex, cardIndexState)
+              setCardIndexState(cardIndex+1)
               if(cardIndex == movies.length - 3){
                 setLoaded(false);
               }
             }}
             onSwipedRight={(cardIndex, card) => {
-              console.log("swiped right")
-              console.log(card)
-            
-              swipeRight(card.title, card.poster_path)
+              swipeRight(card.title, card.poster_path, card.id)
             }}
-            cardIndex={0}
+            onSwipedAll={() => {
+              setCardIndexState(0)
+              setLoaded(false);
+            }}
+            cardIndex={cardIndexState}
             backgroundColor="transparent"
             stackSize= {3}
             disableBottomSwipe={true}
@@ -118,11 +104,6 @@ const Movie = () => {
             verticalSwipe={false}
             stackSeparation={10}
             animateCardOpacity={true}
-            onTapCard={(cardIndex) =>{ 
-              setShowDetails(!showDetails);
-              // re render the card
-           
-            }}
             >
                
         </Swiper>
@@ -141,7 +122,19 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     width: "100%",
     height: "100%",
+  },
+  backgroundImage:{
+    flex: 1,
+    resizeMode: 'cover', // or 'stretch'
+    position: 'absolute',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+    bottom: 0,
+    left: 0,
+    zIndex: -1, 
+
     
+
   },
   card: {
     borderColor: "white",
@@ -151,13 +144,13 @@ const styles = StyleSheet.create({
     maxHeight: "85%",
     backgroundColor: 'white',
     margin: 0,
-    borderRadius: 10,
+    borderRadius: 20,
 },
 image: {
   minWidth: "100%",
   width: "100%",
   height: "100%",
-  borderRadius: 10,
+  borderRadius: 20,
 },
   swiper:{
     height:"100%",

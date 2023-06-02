@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Dimensions, Animated } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
@@ -22,26 +22,29 @@ const Navigation = () => {
           tabBarStyle: screenOptions.tabBarStyle,
           tabBarIcon: ({ focused, color, size }) => {
            
-            if(focused){
-              size = 32
-            }
-            else size = 28
+            size = 30;
 
             if (route.name === 'Home') {
-              return <View style={screenOptions.tabView}><Clapperboard size={size} color={color}   /></View>
+              return <View style={screenOptions.tabView}>
+                  <Clapperboard size={size} color={color} fill={focused ? "black" : "white"}  />
+                </View>
             }
             else if (route.name === "Movie"){
-              return <View style={screenOptions.tabView}><LayoutList size={size} color={color}  /></View>
+              return <View style={screenOptions.tabView}><LayoutList size={size} color={color} fill={focused ? "black" : "white"}  /></View>
             }
             else if(route.name === "FriendsNavigator"){
-              return <View style={screenOptions.tabView}><Users2 size={size} color={color} /></View>
+              return <View style={screenOptions.tabView}>
+                      <Users2 size={size} color={color} fill={focused ? "black" : "white"} />
+                    </View>
             }
 
             // You can return any component that you like here!
             return <View><Home size={size} color={color} /></View>;
           },
-          tabBarActiveTintColor: 'red',
-          tabBarInactiveTintColor: 'white',
+          tabBarActiveTintColor: 'black',
+          tabBarItemStyle: screenOptions.tabBarItemStyle,
+          tabBarInactiveTintColor: 'black',
+          
         })}
       > 
         <Tab.Screen name="Movie" component={MoviesScreen}
@@ -51,6 +54,7 @@ const Navigation = () => {
           }}
         />
         <Tab.Screen name="Home" component={HomeScreen}
+          
           options={{
             title:"",
             
@@ -72,18 +76,26 @@ const Navigation = () => {
 
 const screenOptions = {
     tabBarStyle:{
-      backgroundColor:'black',
-      height:85,
+      padding:14,
+      flex:1,
+      alignItems:'center',
+      justifyContent:'center',
+      position:'absolute',
+      borderRadius:50,
+      margin:50,
+      backgroundColor:'white',
+      height:60,
       borderTopWidth:0,
-      paddingTop:6,
     },
     tabBarItemStyle:{
-      backgroundColor:'#00ff00',
       margin:5,
       borderRadius:10,
+      height:40,
+      width:30,
+  
     },
     tabView:{
-      margin:20,
+      
     },
   };
 

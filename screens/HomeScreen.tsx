@@ -2,8 +2,11 @@ import { View,Text, TouchableOpacity, } from "react-native";
 import React from "react";
 import { StyleSheet } from "react-native";
 import Movie from "../components/Movie";
+import {useDispatch, useSelector} from 'react-redux';
 
 export default function HomeScreen() {
+   
+  
   
     return (
       <View style={styles.container}>

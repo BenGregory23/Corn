@@ -1,7 +1,11 @@
 import Loader from "./Loader";
-import { useEffect, useState, useRef } from "react";
-import { View, ScrollView, Text, StyleSheet, Image } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { useIsFocused } from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import { fetchUserMovies } from "../redux/actions/userMoviesAction";
+
+
 
 const UserMovies = () => {
   const [loaded, setLoaded] = useState(false);
@@ -10,39 +14,24 @@ const UserMovies = () => {
     
   ]);
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
+  //  @ts-ignore
+  const userM = useSelector((state) => state.appReducer.userMovies);
 
   useEffect(() => {
-    
-    if(!loaded){
-    fetch("https://evening-shore-83627.herokuapp.com/users/6464ca0fea2801eac89e4d23/movies", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        
-        return response.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setUserMovies(data);
-        
-          setLoaded(true);
-        
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const loadMovies = async () =>{
+      await dispatch(fetchUserMovies());
+      setLoaded(true);  
     }
-  }, [loaded]);
+    loadMovies();
+  
+    setUserMovies(userM);
 
 
-  useEffect(() => {
-    if(isFocused){
-      setLoaded(false)
-    }
-  }, [isFocused])
+  },[dispatch]);
+
+
+
 
   
   if (!loaded) {
@@ -56,7 +45,7 @@ const UserMovies = () => {
       >
 
 
-        {userMovies.reverse().map((movie, index) => {
+        {userM.reverse().map((movie, index) => {
           return (
             <View style={styles.movie} key={index}>
              
