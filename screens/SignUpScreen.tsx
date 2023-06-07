@@ -1,10 +1,19 @@
 import React, {useEffect, useRef} from 'react';
 import { Animated,View, Text, StyleSheet, Platform, TouchableHighlight, TextInput, KeyboardAvoidingView } from 'react-native';
 import AnimatedLottieView from 'lottie-react-native';
+import {useState} from 'react';
+
+import { ActivityIndicator } from 'react-native';
+import sha256 from 'crypto-js/sha256';
 
 const SignUpScreen = ({navigation}) => {
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         Animated.timing(fadeAnim, {
@@ -15,7 +24,27 @@ const SignUpScreen = ({navigation}) => {
     }, );
 
 
+    const handleSignUp = () => {
+        const url = "https://evening-shore-83627.herokuapp.com/register";
+        
+        if(email === '' || password === '' || name === ''){
+            alert('Please fill in all fields');
+            return;
+        }
 
+        const hashedPassword = sha256(password).toString();
+    
+        fetch(url + '?email=' + email + '&password=' + hashedPassword + '&name=' + name, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then((data) => {
+            console.log('Success:', data);
+            navigation.replace('Login');
+        })
+    }
 
     return (
         <KeyboardAvoidingView style={styles.container}
@@ -31,23 +60,24 @@ const SignUpScreen = ({navigation}) => {
            
             <View style={styles.box}>
             <View style={styles.inputView}>
-                <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" />
+                <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={setEmail} />
             </View>
             <View>
-                <TextInput style={styles.input} placeholder="Password" placeholderTextColor="white" />
+                <TextInput style={styles.input} placeholder="Name" placeholderTextColor="white" onChangeText={setName} />
             </View>
-              <View>
-                <TextInput style={styles.input} placeholder="Password" placeholderTextColor="white"  />
+            <View>
+                <TextInput style={styles.input} placeholder="Password" placeholderTextColor="white" onChangeText={setPassword}  />
             </View>
             <TouchableHighlight  onPress={() => navigation.replace('Login')}>
                 <Text style={styles.signUpButton} >Already have an account? Log in</Text>
             </TouchableHighlight>
 
             <TouchableHighlight style={styles.logInButton} onPress={() => 
-            // set the user as logged In
-            console.log('User is logged in')
+                handleSignUp()
             }>
-                <Text style={styles.logInText}>Sign up</Text>
+                {
+                    loading ? <ActivityIndicator size="small" color="#00ff00" /> : <Text style={styles.logInText}>Sign up</Text>
+                }
             </TouchableHighlight>
             </View>
 
@@ -98,7 +128,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     logInButton:{
-        backgroundColor: "white",
+        backgroundColor: "#34D1BF",
         padding: 10,
         borderRadius: 12,
         width: 270,

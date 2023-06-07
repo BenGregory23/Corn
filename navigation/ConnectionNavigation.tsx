@@ -5,7 +5,7 @@ import LoginScreen from '../screens/LoginScreen';
 import Welcome from '../screens/Welcome';
 import { NavigationContainer } from '@react-navigation/native';
 
-const ConnectionNavigation = ({setIsLoggedIn}) => {
+const ConnectionNavigation = () => {
     const Stack = createStackNavigator();
 
     return(

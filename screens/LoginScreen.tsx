@@ -1,18 +1,62 @@
 import AnimatedLottieView from 'lottie-react-native';
 import React, {useEffect, useRef}from 'react';
 import { Animated,View, Text, StyleSheet, TouchableHighlight, TextInput, Platform, Image, KeyboardAvoidingView } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { setUserConnected, setUser } from '../redux/actions/userActions';
+import URL_BACKEND  from '../constants/constants';
+import sha256 from 'crypto-js/sha256';
+import {getValueFor, save } from '../utils/secureStore'
+
 
 const LoginScreen = ({navigation}) => {
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
+
+    const dispatch = useDispatch();
+
+    //get userCOnnected from redux
+    // @ts-ignore
+    const userConnected = useSelector(state => state.appReducer.userConnected);
 
     const fadeAnim = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
+       
         Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 1000, // Adjust the duration as needed
         useNativeDriver: true,
         }).start();
     }, );
+
+    const login = () => {
+        const url = URL_BACKEND + "/login";
+        const hashedPassword = sha256(password).toString();
+  
+        fetch(url + '?email=' + email + '&password=' + hashedPassword, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => { 
+            setLoading(true);
+            
+            if(response.status === 200){
+                response.json().then((data) => {
+                    save("userConnected", "true");
+                    save("user", JSON.stringify(data));
+                    dispatch(setUser({email: email, _id: data._id}));
+                    dispatch(setUserConnected(true));
+                    
+                })  
+            }
+        })
+
+        
+        
+    }
 
     return (
         <KeyboardAvoidingView style={styles.container}
@@ -29,20 +73,20 @@ const LoginScreen = ({navigation}) => {
            
             <View style={styles.box}>
             <View style={styles.inputView}>
-                <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" />
+                <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={setEmail} />
             </View>
             <View>
              
-                <TextInput style={styles.input} placeholder="Password" placeholderTextColor="white"  />
+                <TextInput style={styles.input} placeholder="Password" placeholderTextColor="white" onChangeText={setPassword}  />
             </View>
             <TouchableHighlight  onPress={() => navigation.replace('SignUp')}>
                 <Text style={styles.signUpButton} >Don't have an account? Sign up</Text>
             </TouchableHighlight>
 
-            <TouchableHighlight style={styles.logInButton} onPress={() => 
-            // set the user as logged In
-            console.log('User is logged in')
-            }>
+            <TouchableHighlight style={styles.logInButton} disabled={loading} onPress={()=>{
+                login();
+                   
+                }}>
                 <Text style={styles.logInText}>Log in</Text>
             </TouchableHighlight>
             </View>
@@ -92,7 +136,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     logInButton:{
-        backgroundColor: "white",
+        backgroundColor: "#34D1BF",
         padding: 10,
         borderRadius: 12,
         width: 270,

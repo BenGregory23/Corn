@@ -1,53 +1,31 @@
 import Loader from "./Loader";
-import { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
-import { useIsFocused } from '@react-navigation/native';
-import {useDispatch, useSelector} from 'react-redux';
-import { fetchUserMovies } from "../redux/actions/userMoviesAction";
+import {useSelector} from 'react-redux';
 
 
 
-const UserMovies = () => {
-  const [loaded, setLoaded] = useState(false);
-  const [userMovies, setUserMovies] = useState([
-    "Action",
-    
-  ]);
-  const isFocused = useIsFocused();
-  const dispatch = useDispatch();
-  //  @ts-ignore
-  const userM = useSelector((state) => state.appReducer.userMovies);
-
-  useEffect(() => {
-    const loadMovies = async () =>{
-      await dispatch(fetchUserMovies());
-      setLoaded(true);  
-    }
-    loadMovies();
+const UserMovies = ({movies}) => {
   
-    setUserMovies(userM);
 
-
-  },[dispatch]);
-
-
-
-
-  
-  if (!loaded) {
+  if ( !movies && movies.length === 0) {
     return <Loader />;
   }
 
+  if(movies.length > 0){
   return (
 
       <View
         style={styles.scrollContent}
       >
-
-
-        {userM.reverse().map((movie, index) => {
+        {movies.reverse().map((movie, index) => {
           return (
-            <View style={styles.movie} key={index}>
+            <View style={styles.movie} 
+              
+              // @ts-ignore
+              key={index} onDoublePress={() => {
+                console.log("double pressed");
+              }}>
+            
              
               <Image source={{
                 uri:"https://image.tmdb.org/t/p/w500/" + movie.poster
@@ -61,7 +39,9 @@ const UserMovies = () => {
       </View>
    
   );
+  }
 };
+
 
 const styles = StyleSheet.create({
   container: {

@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react'
 import {View, Text, StyleSheet, ScrollView, TouchableHighlight} from "react-native"
 import { FlatList } from 'react-native-gesture-handler'
 
-const UserGenres = () => {
+const UserGenres = ({userId}) => {
     const genres = ["Action", "Adventure", "Animation", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "History", "Horror", "Music", "Mystery", "Romance", "Science Fiction", "TV Movie", "Thriller", "War", "Western"] 
     const [userGenres, setUserGenres] = useState([])
     const [genresFetched, setGenresFetched] = useState(false)
@@ -12,7 +12,7 @@ const UserGenres = () => {
     useEffect(() => {
             if(!genresFetched){
                 console.log("fetching")
-            fetch("https://evening-shore-83627.herokuapp.com/users/6464ca0fea2801eac89e4d23/genres", {
+            fetch(`https://evening-shore-83627.herokuapp.com/users/${userId}/genres`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -20,7 +20,6 @@ const UserGenres = () => {
             })
             .then((response) => response.json())
             .then((data) => {
-                console.log(data)
                 setUserGenres(data)
                 setGenresFetched(true)
                 
@@ -40,7 +39,7 @@ const UserGenres = () => {
             const modifiedGenres = userGenres.filter((userGenre) => userGenre !== genre)
             console.log(modifiedGenres)
             setUserGenres(modifiedGenres)
-            fetch("https://evening-shore-83627.herokuapp.com/users/6464ca0fea2801eac89e4d23/genres", {
+            fetch( `https://evening-shore-83627.herokuapp.com/users/${userId}/genres`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -58,7 +57,7 @@ const UserGenres = () => {
             
             console.log(modifiedGenres)
             setUserGenres([...userGenres, genre])
-             fetch("https://evening-shore-83627.herokuapp.com/users/6464ca0fea2801eac89e4d23/genres", {
+             fetch( `https://evening-shore-83627.herokuapp.com/users/${userId}/genres`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",

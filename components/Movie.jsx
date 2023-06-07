@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Image, Dimensions} from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { View, StyleSheet, Image, Dimensions, Animated} from 'react-native';
 import Swiper from 'react-native-deck-swiper';
-
+import BackgroundImage from './BackgroundImage';
+import Loader from './Loader';
+import { useSelector } from 'react-redux';
 
 const Movie = () => {
  
   const [movies, setMovies] = useState([]);
   const [loaded, setLoaded] = useState(false)
-  const [showDetails, setShowDetails] = useState(false);
   const [cardIndexState, setCardIndexState] = useState(0);
 
+  const user = useSelector(state => state.appReducer.user);
+
+- 
+
   useEffect(() => {
+    console.log("Movie", user);
     if(loaded == false){
       fetchRandomMovies();
     }
@@ -18,7 +24,9 @@ const Movie = () => {
 
   
   const swipeRight = (title, poster_path, id) => {
-    const url = "https://evening-shore-83627.herokuapp.com/users/6464ca0fea2801eac89e4d23/movies";
+    const url = `https://evening-shore-83627.herokuapp.com/users/${user._id}/movies`;
+    
+
 
     fetch(url, {
       method: "POST",
@@ -38,19 +46,15 @@ const Movie = () => {
  
   const fetchRandomMovies = async () => {
     try {
-      const apiKey = '42b8a7922cc2d03ed720a24cba029744';
-      const genres = '12,28'; // Specify your desired genre IDs (e.g., 12 for Adventure, 28 for Action)
-      const page = Math.floor(Math.random() * 100) + 1; // Generate a random page number between 1 and 100
-     
-      const apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genres}&page=${page}`;
+      const url = `https://evening-shore-83627.herokuapp.com/random/${user._id}`;
 
-      const response = await fetch(apiUrl);
+      const response = await fetch(url);
       const data = await response.json();
 
       if (response.ok) {
-        
+        console.log("RANDOM",data);
         setLoaded(false); // Reset loaded state to false
-        setMovies(data.results); // Set movies state to the results
+        setMovies(data); // Set movies state to the results
         
         setLoaded(true);
       } else {
@@ -63,34 +67,38 @@ const Movie = () => {
 
   if(!loaded){
     return (
-        <></>
+        <Loader/>
     )
   }
-
+  
   return (
     <View style={styles.container}>
-      <Image style={styles.backgroundImage} source={{uri: `https://image.tmdb.org/t/p/w500/${movies[cardIndexState].backdrop_path}`}} blurRadius={6}/>
+    
+      {//<Image style={styles.backgroundImage} source={{uri: `https://image.tmdb.org/t/p/w500/${movies[cardIndexState].backdrop_path}`}} blurRadius={6}/>
+}
+      <BackgroundImage poster_path={movies[cardIndexState].poster} />
       <View style={styles.swiper}>
           <Swiper
             cards={movies}
+            
             renderCard={(card) => {
+              
                 return ( 
                     <View style={styles.card}>
 
-                        <Image style={styles.image} source={{uri: `https://image.tmdb.org/t/p/w500/${card.poster_path}`}}/>
+                        <Image style={styles.image} source={{uri: `https://image.tmdb.org/t/p/w500/${card.poster}`}}/>
                     </View>
                 )
             }}
             onSwiped={(cardIndex) => {
-
-              console.log(cardIndex, cardIndexState)
               setCardIndexState(cardIndex+1)
+              
               if(cardIndex == movies.length - 3){
                 setLoaded(false);
               }
             }}
             onSwipedRight={(cardIndex, card) => {
-              swipeRight(card.title, card.poster_path, card.id)
+              swipeRight(card.title, card.poster, card.id)
             }}
             onSwipedAll={() => {
               setCardIndexState(0)
@@ -119,9 +127,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'flex-start',
-    width: "100%",
-    height: "100%",
+    alignItems: 'center',
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
   },
   backgroundImage:{
     flex: 1,
@@ -132,62 +140,29 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     zIndex: -1, 
-
     
-
   },
   card: {
     borderColor: "white",
-    borderWidth: 1,
-    width: "100%",
-    height: "100%",
-    maxHeight: "85%",
+    borderWidth: 0,
+    width: Dimensions.get('window').width * 0.9,
+    height: Dimensions.get('window').height * 0.7,
     backgroundColor: 'white',
     margin: 0,
-    borderRadius: 20,
-},
-image: {
-  minWidth: "100%",
-  width: "100%",
-  height: "100%",
-  borderRadius: 20,
-},
+    borderRadius: 25,
+  },
+  image: {
+    width: Dimensions.get('window').width * 0.9,
+    height: Dimensions.get('window').height * 0.7,
+    borderRadius: 25,
+  },
   swiper:{
     height:"100%",
     width:"100%",
     marginBottom: 20,
     justifyContent: "center",
     alignItems: "center",
-  },
- 
-  cardPoster: {
-    width: "100%",
-    height: "100%",
-    borderRadius: 10,
-    objectFit: "cover",
-  },
-  details: {
-    display: "none",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-  },
-  detailsActive: {
-     
-    position: "relative",
-    top: 0,
-    left: 0,
-    width: "90%",
-    backgroundColor: "rgba(255,255,255,0.9)",
-    borderRadius: 10,
-    zIndex: 1,
-    padding: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    
-  }
+  },  
 });
 
 export default Movie;

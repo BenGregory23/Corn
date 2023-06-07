@@ -1,13 +1,10 @@
-import { View,Text, TouchableOpacity, } from "react-native";
+import { View, Dimensions, } from "react-native";
 import React from "react";
 import { StyleSheet } from "react-native";
 import Movie from "../components/Movie";
-import {useDispatch, useSelector} from 'react-redux';
 
 export default function HomeScreen() {
    
-  
-  
     return (
       <View style={styles.container}>
           <Movie/>
@@ -18,6 +15,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
+      width: Dimensions.get("window").width,
       backgroundColor: "black",
       display: "flex",
       justifyContent: "center",

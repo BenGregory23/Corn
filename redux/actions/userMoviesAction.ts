@@ -8,17 +8,15 @@ export const setUserMovies = (userMovies:any) => {
 }
 
 
-
-
-export const fetchUserMovies = ():any => {
+export const fetchUserMovies = (_id:string):any => {
     return async (dispatch:any) => {
         try {
-            const moviesPromise = await fetch("https://evening-shore-83627.herokuapp.com/users/6464ca0fea2801eac89e4d23/movies", {
+            const moviesPromise = await fetch(`https://evening-shore-83627.herokuapp.com/users/${_id}/movies`, {
                 method: "GET",
                 headers: {
                   "Content-Type": "application/json",
                 },
-              })
+              });
 
             const movies = await moviesPromise.json();
             dispatch(setUserMovies(movies));
