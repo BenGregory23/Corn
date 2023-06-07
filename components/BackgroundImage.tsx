@@ -31,7 +31,7 @@ const BackgroundImage = ({ poster_path }) => {
       <Image
         style={styles.backgroundImage}
         source={{ uri: `https://image.tmdb.org/t/p/w500/${poster_path}` }}
-        blurRadius={6}
+        blurRadius={7}
       />
     </Animated.View>
   );
