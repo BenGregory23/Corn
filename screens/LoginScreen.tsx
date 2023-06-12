@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { setUserConnected, setUser } from '../redux/actions/userActions';
 import URL_BACKEND  from '../constants/constants';
 import sha256 from 'crypto-js/sha256';
-import {getValueFor, save } from '../utils/secureStore'
+import { save } from '../utils/secureStore'
 
 
 const LoginScreen = ({navigation}) => {
@@ -34,14 +34,14 @@ const LoginScreen = ({navigation}) => {
     const login = () => {
         const url = URL_BACKEND + "/login";
         const hashedPassword = sha256(password).toString();
-  
+        setLoading(true);
         fetch(url + '?email=' + email + '&password=' + hashedPassword, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
         }).then((response) => { 
-            setLoading(true);
+          
             
             if(response.status === 200){
                 response.json().then((data) => {
@@ -51,6 +51,8 @@ const LoginScreen = ({navigation}) => {
                     dispatch(setUserConnected(true));
                     
                 })  
+            }else{
+                setLoading(false)
             }
         })
 
@@ -86,7 +88,10 @@ const LoginScreen = ({navigation}) => {
                 login();
                    
                 }}>
-                <Text style={styles.logInText}>Log in</Text>
+                    {
+                        loading ? <AnimatedLottieView source={{uri:"https://assets5.lottiefiles.com/packages/lf20_ajWvMW0spf.json"}} autoPlay loop style={{ height: 70, width: 100, position: "absolute"}}/> : <Text style={styles.logInText}>Log in</Text>
+                    }
+                
             </TouchableHighlight>
             </View>
 
@@ -139,6 +144,7 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 12,
         width: 270,
+        height: 50,
         justifyContent: 'center',
         alignItems: 'center',
         margin: 50,
