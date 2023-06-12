@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
+import { Film } from 'lucide-react-native';
 
 const FriendCard = ({navigation}) => {
     const friend = {
@@ -7,10 +8,10 @@ const FriendCard = ({navigation}) => {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} >
             <Text style={styles.Text}>{friend.name}</Text>
             <TouchableHighlight style={styles.button} onPress={() => navigation.navigate("Movies")}>
-                   <Text>Films</Text>  
+                   <Text style={{color: "white"}}> Movies</Text>
             </TouchableHighlight>
      
         </View>
@@ -20,12 +21,14 @@ const FriendCard = ({navigation}) => {
 
 const styles = StyleSheet.create({
     container:{
-        
+        backgroundColor: 'rgba(74, 78, 105, 0.35)',
+        borderWidth: 2,
+        borderColor: "#4a4e69",
+        borderRadius: 7,
         justifyContent: "center",
         alignItems: "center",
-        padding: 20,
-    
-        backgroundColor:"black",
+        padding: 25,
+        margin:5,
         flexDirection: "row",
         justifyContent: "space-between",    
     },
@@ -36,11 +39,10 @@ const styles = StyleSheet.create({
         
     }, 
     button:{
-        backgroundColor: "white",
+        backgroundColor: "transparent",
         borderRadius: 100,
-        padding: 10,
+        
         color: "black",
-        width: 100,
         alignItems: "center",
         justifyContent: "center",
     }

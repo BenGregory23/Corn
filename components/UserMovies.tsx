@@ -1,59 +1,78 @@
 import Loader from "./Loader";
-import { View, Text, StyleSheet, Image } from "react-native";
-import {useSelector} from 'react-redux';
+import { View, Text, StyleSheet, Image, Platform, Dimensions, TouchableHighlight, Pressable } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import URL_BACKEND from "../constants/constants";
+import { useSelector } from "react-redux";
+
 
 
 
 const UserMovies = ({movies}) => {
-  
 
+  // @ts-ignore
+  const user = useSelector(state => state.appReducer.user)
+  
+  const removeMovie = (movie) => {
+    console.log('REMOVING', movie)
+    // TODO faire la suppression du film dans le back
+    fetch(URL_BACKEND + `/users/${user._id}/movies`,{
+    method: 'DELETE',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body : {
+      // @ts-ignore
+      "name": movie.name,
+      "poster": movie.poster,
+      "id_tmdb":  movie.id_tmdb
+    }
+  }).then(res => res.json())
+  .then(res => console.log(res))
+  .catch(err =>console.log(err))
+  }  
   if ( !movies && movies.length === 0) {
     return <Loader />;
   }
 
   if(movies.length > 0){
   return (
+      <View style={styles.scrollContent}>
+        
+        <FlatList data={movies}
+                numColumns={3}
+                contentContainerStyle={styles.list}
+                initialNumToRender={5}
+                  renderItem={({item, index, separators}) => (
 
-      <View
-        style={styles.scrollContent}
-      >
-        {movies.reverse().map((movie, index) => {
-          return (
-            <View style={styles.movie} 
-              
-              // @ts-ignore
-              key={index} onDoublePress={() => {
-                console.log("double pressed");
-              }}>
-            
-             
-              <Image source={{
-                uri:"https://image.tmdb.org/t/p/w500/" + movie.poster
-              }} style={styles.poster}/>
-            </View>
-          );
-        })}
-        <Text style={styles.text}>
-            Add more movies!
-        </Text>
-      </View>
-   
-  );
-  }
-};
+                              <View style={styles.movie}    
+                                    
+                                   key={index} 
+                                > 
+                                    <Pressable
+                                      onLongPress={()=>{
+                                        removeMovie(item)
+                                        
+                                      }}
+                                    >
+                                      <Image source={{uri:"https://image.tmdb.org/t/p/w500/" + item.poster}} style={styles.poster}/>
+                                    </Pressable>
+                                </View>)}
+        /> 
+    </View>);
+}};
 
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
+    justifyContent: "center",
+    alignItems: "center"
   },
   scrollContent: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    alignItems: "center",
-    minHeight: "100%",
+    
+    justifyContent: "center"
+
   },
   movie: {
     height: 150,
@@ -79,6 +98,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginVertical: 10,
     textAlign: "center",
+  },
+  list:{
+   
+    flex:1,
+    alignItems:"center",
   }
   
 });

@@ -1,27 +1,33 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import {View, Text, SafeAreaView, TextInput, TouchableOpacity, Dimensions} from "react-native"
 import { FlatList } from 'react-native-gesture-handler'
 import { StyleSheet, TouchableHighlight, ScrollView } from 'react-native'
 import FriendCard from '../components/FriendCard'
-import AnimatedLottieView from 'lottie-react-native'
 import "../assets/speaker.json"
-import { Search } from 'lucide-react-native'
+import { Plus } from 'lucide-react-native'
+import URL_BACKEND from '../constants/constants'
 
 
 
 
 
 const FriendsScreen = ({navigation}) => {
-    
+    const [friendMail, setFriendMail] = useState("")
+
+
+    const addFriend = () => {
+        fetch(URL_BACKEND + "/")
+
+    }
 
     return(
         <View style={styles.container}>
           
           <View style={styles.search}>
-                <TextInput style={styles.searchInput} placeholder='Search for a friend' placeholderTextColor={"white"} />
+                <TextInput style={styles.searchInput} placeholder='Enter the mail of a friend' placeholderTextColor={"white"} />
                 <TouchableOpacity style={styles.searchButton}>
-                    <Search width={30} fill='transparent' color='white'/> 
+                    <Plus width={30} fill='transparent' color='white'/> 
                 </TouchableOpacity>
             </View>
     

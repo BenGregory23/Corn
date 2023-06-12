@@ -40,7 +40,7 @@ const UserGenres = ({userId}) => {
             console.log(modifiedGenres)
             setUserGenres(modifiedGenres)
             fetch( `https://evening-shore-83627.herokuapp.com/users/${userId}/genres`, {
-                method: "PUT",
+                method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -58,7 +58,7 @@ const UserGenres = ({userId}) => {
             console.log(modifiedGenres)
             setUserGenres([...userGenres, genre])
              fetch( `https://evening-shore-83627.herokuapp.com/users/${userId}/genres`, {
-                method: "PUT",
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },

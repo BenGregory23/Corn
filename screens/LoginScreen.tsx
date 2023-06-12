@@ -73,11 +73,10 @@ const LoginScreen = ({navigation}) => {
            
             <View style={styles.box}>
             <View style={styles.inputView}>
-                <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={setEmail} />
+                <TextInput style={styles.input} placeholder="Email" placeholderTextColor="white" onChangeText={setEmail} keyboardType="email-address"  autoComplete='email'/>
             </View>
             <View>
-             
-                <TextInput style={styles.input} placeholder="Password" placeholderTextColor="white" onChangeText={setPassword}  />
+                <TextInput style={styles.input} placeholder="Password" placeholderTextColor="white" onChangeText={setPassword}   secureTextEntry={true} autoCorrect={false} />
             </View>
             <TouchableHighlight  onPress={() => navigation.replace('SignUp')}>
                 <Text style={styles.signUpButton} >Don't have an account? Sign up</Text>
