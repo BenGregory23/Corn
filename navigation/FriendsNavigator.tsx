@@ -11,8 +11,10 @@ export default function FriendsNavigator() {
         <Stack.Navigator screenOptions={{
           headerStyle: {
             backgroundColor: 'black',
+
           },
-          headerTintColor: '#fff',
+          headerShown:false,
+            
         }} initialRouteName="Friends">
           <Stack.Screen name="Movies" component={CommonMovies}/>
           <Stack.Screen name="Friends" component={FriendsScreen}/>
