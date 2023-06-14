@@ -62,7 +62,7 @@ const MoviesScreen = ({navigation}) => {
                 {
                     <AnimatedLottieView source={require("../assets/bucket.json")} autoPlay loop style={{width: 200, height: 200, marginLeft:7}}/>
                 }
-                <Text style={styles.Title}>My Movies</Text>
+                <Text style={styles.Title}>MY MOVIES</Text>
                 <UserGenres userId={user._id}/>
             </View>
             <UserMovies movies={userM} />
@@ -76,12 +76,13 @@ const styles = StyleSheet.create({
         backgroundColor: "black"
     } ,
     Title: {
+       
         color: "white",
         fontSize: 30,
         fontWeight: "bold",
         marginVertical: 10,
     },header:{
-        
+       
         alignItems: 'center',
         justifyContent: 'center',
        
