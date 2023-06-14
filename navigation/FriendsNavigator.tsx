@@ -1,7 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import FriendsScreen from "../screens/FriendsScreen";
-import CommonMovies from "../components/CommonMovies";
+import CommonMovies from "../screens/CommonMovies";
+import  AddFriendScreen from "../screens/AddFriendScreen";
 
 
 export default function FriendsNavigator() {
@@ -18,6 +19,7 @@ export default function FriendsNavigator() {
         }} initialRouteName="Friends">
           <Stack.Screen name="Movies" component={CommonMovies}/>
           <Stack.Screen name="Friends" component={FriendsScreen}/>
+          <Stack.Screen name="Add" component={AddFriendScreen}/>
         </Stack.Navigator>
   
     )

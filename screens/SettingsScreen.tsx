@@ -4,7 +4,7 @@ import { ChevronLeft } from 'lucide-react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserConnected } from '../redux/actions/userActions';
 import { deleteValueFor, getValueFor, save } from '../utils/secureStore';
-import { Sun } from 'lucide-react-native';
+import { Sun, Moon } from 'lucide-react-native';
 import { setLightMode } from '../redux/actions/themeActions';
 import {lightTheme, darkTheme} from "../theme/theme";
 
@@ -23,6 +23,7 @@ const SettingsScreen = ({navigation}) => {
 
     const styles = StyleSheet.create({
         container: {
+            paddingTop: 40,
             flex: 1,
             backgroundColor: theme.background,
         },
@@ -73,7 +74,10 @@ const SettingsScreen = ({navigation}) => {
             <TouchableOpacity style={styles.button} onPress={() => {
                 dispatch(setLightMode(!lightMode));
             }}>
-                <Sun size={30} color={theme.text} />
+                {
+                    lightMode === true ? <Moon size={30} color={theme.buttonTextColor} /> : <Sun size={30} color={theme.buttonTextColor} />
+                }
+               
             </TouchableOpacity>
 
 

@@ -18,8 +18,8 @@ export default function App() {
   return (
     <>
       <Provider store={store}>
-        <StatusBar style="light" />
-        <SafeAreaView style={styles.topSafeArea} />
+        <StatusBar style="light" /> 
+      
         <Navigation/>
       </Provider>
     </>

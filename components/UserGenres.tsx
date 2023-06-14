@@ -6,7 +6,9 @@ import { FlatList } from 'react-native-gesture-handler'
 const UserGenres = ({userId}) => {
     const genres = ["Action", "Adventure", "Animation", "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy", "History", "Horror", "Music", "Mystery", "Romance", "Science Fiction", "TV Movie", "Thriller", "War", "Western"] 
     const [userGenres, setUserGenres] = useState([])
-    const [genresFetched, setGenresFetched] = useState(false)
+    // TODO fix genres
+    // the back returns a non string like so [Action, Animation,] instead of ["Action", "Animation", "Comedy"].
+    const [genresFetched, setGenresFetched] = useState(true)
 
 
     useEffect(() => {
@@ -20,12 +22,13 @@ const UserGenres = ({userId}) => {
             })
             .then((response) => response.json())
             .then((data) => {
-                setUserGenres(data)
-                setGenresFetched(true)
+                console.log(data)
+                //setUserGenres(data)
+                //setGenresFetched(true)
                 
             })
             .catch((error) => {
-                console.error(error)
+                console.error("GENRES",error)
             })
         }
         

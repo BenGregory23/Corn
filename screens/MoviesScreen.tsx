@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import {View, Text, StyleSheet, RefreshControl, TouchableOpacity} from "react-native"
 import AnimatedLottieView from 'lottie-react-native'
 import UserGenres from '../components/UserGenres'
@@ -25,7 +25,7 @@ const MoviesScreen = ({navigation}) => {
     const dispatch = useDispatch();
 
     const [loaded, setLoaded] = useState(false);
-
+    const lottieRef = useRef<AnimatedLottieView|null>(null);
    
 
     useEffect(() => {
@@ -34,8 +34,17 @@ const MoviesScreen = ({navigation}) => {
         setLoaded(true)
       }
       loadMovies();
-      
     },[dispatch]);
+
+
+    useEffect(() => {
+        if (lottieRef.current) {
+        setTimeout(() => {
+            lottieRef.current?.reset();
+            lottieRef.current?.play();
+        }, 100);
+        }
+    }, [lottieRef.current]);
 
     const handleRefresh = () => {
         const loadMovies = async () =>{
@@ -55,6 +64,7 @@ const MoviesScreen = ({navigation}) => {
 
     const styles = StyleSheet.create({
         container: {
+            paddingTop: 40,
             flex: 1,
             backgroundColor: theme.background
         } ,
@@ -64,13 +74,10 @@ const MoviesScreen = ({navigation}) => {
             fontWeight: "bold",
             marginVertical: 10,
         },header:{
-
             alignItems: 'center',
             justifyContent: 'center',
-
             minHeight: 350,
             width: "100%",
-
         },
         settingsButton:{
             top:0,
@@ -90,16 +97,16 @@ const MoviesScreen = ({navigation}) => {
             <TouchableOpacity onPress={goToSettings} style={styles.settingsButton}>
                 <Settings size={30} color={theme.text} />
             </TouchableOpacity>
-
+            
+            
             <View style={styles.header}>
-                {
-                    <AnimatedLottieView source={require("../assets/bucket.json")} autoPlay loop style={{width: 200, height: 200, marginLeft:7}}/>
-                }
-                <Text style={styles.Title}>My Movies</Text>
-                <UserGenres userId={user._id}/>
+                    <AnimatedLottieView source={require("../assets/bucket.json")} ref={lottieRef} autoPlay loop style={{width: 170, height: 170, marginLeft:7}}/>    
+                    <Text style={styles.Title}>My Movies</Text>
+                    <UserGenres userId={user._id}/>
             </View>
             <UserMovies movies={userM} />
         </ScrollView>
+        
     )
 }
 

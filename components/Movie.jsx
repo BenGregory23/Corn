@@ -157,9 +157,10 @@ const styles = StyleSheet.create({
     borderRadius: 25,
   },
   swiper:{
+    marginTop: 100,
     height:"100%",
     width:"100%",
-    marginBottom: 20,
+    marginBottom: 0,
     justifyContent: "center",
     alignItems: "center",
   },  

@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { setUserConnected, setUser } from '../redux/actions/userActions';
 import Loader from '../components/Loader';
 import {darkTheme, lightTheme} from "../theme/theme";
+import { SafeAreaView } from 'react-native';
 
 
 
@@ -70,7 +71,7 @@ const Navigation = () => {
               backgroundColor: theme.background,
               height:70,
               borderTopWidth:1,
-              borderTopColor:'#3d3d3d',
+              borderTopColor:theme.menuBorder,
           },
           tabBarItemStyle:{
               margin:5,
@@ -83,11 +84,13 @@ const Navigation = () => {
           tabView:{
 
           },
+       
       };
 
     return (
 
       <NavigationContainer>
+  
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={({ route }) => ({

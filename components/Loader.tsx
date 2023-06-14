@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { View, StyleSheet, Text, Dimensions } from 'react-native'
 import AnimatedLottieView from 'lottie-react-native'
+import { useSelector } from 'react-redux'
+import { lightTheme, darkTheme } from '../theme/theme'
 
 const Loader = () => {
+
+        // @ts-ignore
+        const lightMode = useSelector(state => state.appReducer.state)
+        const theme = (lightMode === true) ? lightTheme : darkTheme;
+
     const [loadingSentences, setLoadingSentences] = useState([
         "Loading recommendations...",
         "Finding movies for you...",
@@ -35,6 +42,28 @@ const Loader = () => {
         return () => clearInterval(interval);   
         }, []);
 
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            alignItems: 'center',
+            backgroundColor: theme.background,
+            justifyContent: 'center',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: Dimensions.get("window").height,
+        } ,
+        text:{
+            color:theme.text,
+            fontSize: 16,
+            margin: 20,
+            fontWeight: "bold",
+        }
+})
+    
+
     return(
         //fading animation
     <View style={styles.container}>
@@ -44,32 +73,8 @@ const Loader = () => {
         <Text style={styles.text}>
             {randomSentence}
         </Text>
-    </View>
-
-    )
+    </View>)
 
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        backgroundColor: "black",
-        justifyContent: 'center',
-        position: "absolute",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: Dimensions.get("window").height,
-    } ,
-    text:{
-        color:"white",
-        fontSize: 16,
-        margin: 20,
-        fontWeight: "bold",
-    }
-})
-    
-
 
 export default Loader
