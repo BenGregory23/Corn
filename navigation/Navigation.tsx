@@ -14,6 +14,7 @@ import { getValueFor } from '../utils/secureStore';
 import { useDispatch } from 'react-redux';
 import { setUserConnected, setUser } from '../redux/actions/userActions';
 import Loader from '../components/Loader';
+import {darkTheme, lightTheme} from "../theme/theme";
 
 
 
@@ -22,6 +23,10 @@ const Navigation = () => {
   // @ts-ignore
   const userConnected = useSelector(state => state.appReducer.userConnected)
   const dispatch = useDispatch();
+
+    // @ts-ignore
+    const lightMode = useSelector(state => state.appReducer.lightMode);
+    const theme = (lightMode === true) ? lightTheme : darkTheme;
 
 
 
@@ -50,6 +55,35 @@ const Navigation = () => {
 
 
     const Tab = createBottomTabNavigator();
+
+      const screenOptions = {
+          tabBarStyle:{
+              padding:14,
+              paddingBottom:20,
+              flex:1,
+              alignItems:'center',
+              justifyContent:'center',
+              position:'absolute',
+
+              //margin:25,
+              //backgroundColor:'rgba(171, 35, 70,  1)',
+              backgroundColor: theme.background,
+              height:70,
+              borderTopWidth:1,
+              borderTopColor:'#3d3d3d',
+          },
+          tabBarItemStyle:{
+              margin:5,
+              marginBottom:0,
+              borderRadius:10,
+              height:40,
+              width:30,
+
+          },
+          tabView:{
+
+          },
+      };
 
     return (
 
@@ -116,38 +150,6 @@ const Navigation = () => {
         }
 
 }
-
-
-
-
-const screenOptions = {
-    tabBarStyle:{
-      padding:14,
-      paddingBottom:20,
-      flex:1,
-      alignItems:'center',
-      justifyContent:'center',
-      position:'absolute',
-      
-      //margin:25,
-      //backgroundColor:'rgba(171, 35, 70,  1)',
-      backgroundColor:'black',
-      height:70,
-      borderTopWidth:1,
-      borderTopColor:'#3d3d3d',
-    },
-    tabBarItemStyle:{
-      margin:5,
-      marginBottom:0,
-      borderRadius:10,
-      height:40,
-      width:30,
-  
-    },
-    tabView:{
-      
-    },
-  };
 
 
 export default Navigation

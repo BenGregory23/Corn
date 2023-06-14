@@ -6,16 +6,13 @@ import { setUserConnected } from '../redux/actions/userActions';
 import { deleteValueFor, getValueFor, save } from '../utils/secureStore';
 import { Sun } from 'lucide-react-native';
 import { setLightMode } from '../redux/actions/themeActions';
-
-
+import {lightTheme, darkTheme} from "../theme/theme";
 
 const SettingsScreen = ({navigation}) => {
-
-   
-
     const dispatch = useDispatch();
     // @ts-ignore
     const lightMode = useSelector(state => state.appReducer.lightMode);
+    const theme = (lightMode === true) ? lightTheme : darkTheme;
     console.log(lightMode);
 
     const  logOut = () =>{
@@ -23,12 +20,52 @@ const SettingsScreen = ({navigation}) => {
             dispatch(setUserConnected(false));
         })
     }
-    
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: theme.background,
+        },
+        header:{
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            flexDirection: "row",
+            margin: 20,
+        },
+        title:{
+            color: theme.text,
+            fontSize: 29,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            margin: 0,
+
+        },
+        button:{
+            backgroundColor: theme.button,
+            paddingVertical: 15,
+            paddingHorizontal: 10,
+            borderRadius: 12,
+            margin: 20,
+            justifyContent: "center",
+            alignItems: "center",
+        },
+        buttonText:{
+            fontWeight: "bold",
+            fontSize: 17,
+            color: theme.buttonTextColor
+        },
+        backButton:{
+            marginRight: 10,
+            zIndex: 100,
+        },
+    });
+
+
     return(
         <View style={styles.container}>
             <View style={styles.header}>
             <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Movies')}>
-                <ChevronLeft size={30} color="white" />
+                <ChevronLeft size={30} color={theme.text} />
             </TouchableOpacity>
             <Text style={styles.title}>Settings</Text>
             </View>
@@ -36,7 +73,7 @@ const SettingsScreen = ({navigation}) => {
             <TouchableOpacity style={styles.button} onPress={() => {
                 dispatch(setLightMode(!lightMode));
             }}>
-                <Sun size={30} color="white" />
+                <Sun size={30} color={theme.text} />
             </TouchableOpacity>
 
 
@@ -47,43 +84,5 @@ const SettingsScreen = ({navigation}) => {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "black"
-    },
-    header:{
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        flexDirection: "row",
-        margin: 20,
-    },
-    title:{
-        color:'white',
-        fontSize: 29,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        margin: 0,
-        
-    }, 
-    button:{
-        backgroundColor: '#34D1BF',
-        paddingVertical: 15,
-        paddingHorizontal: 10,
-        borderRadius: 12,
-        margin: 20,
-        justifyContent: "center",
-        alignItems: "center",  
-    },
-    buttonText:{
-        fontWeight: "bold",
-        fontSize: 17
-    },
-    backButton:{
-       marginRight: 10,
-        zIndex: 100,
-    },
-});
 
 export default SettingsScreen;

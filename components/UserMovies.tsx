@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, Platform, Dimensions, TouchableHighlight
 import { FlatList } from "react-native-gesture-handler";
 import URL_BACKEND from "../constants/constants";
 import { useSelector } from "react-redux";
+import {darkTheme, lightTheme} from "../theme/theme";
 
 
 
@@ -11,6 +12,10 @@ const UserMovies = ({movies}) => {
 
   // @ts-ignore
   const user = useSelector(state => state.appReducer.user)
+
+  // @ts-ignore
+  const lightMode = useSelector(state => state.appReducer.lightMode);
+  const theme = (lightMode === true) ? lightTheme : darkTheme;
   
   const removeMovie = (movie) => {
     console.log('REMOVING', movie)

@@ -8,11 +8,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserMovies } from '../redux/actions/userMoviesAction'
 import { Settings } from 'lucide-react-native'
 import Loader from '../components/Loader'
+import {darkTheme, lightTheme} from "../theme/theme";
 
 
 const MoviesScreen = ({navigation}) => {
     // @ts-ignore
     const user = useSelector(state => state.appReducer.user);
+
+    // @ts-ignore
+    const lightMode = useSelector( state => state.appReducer.lightMode);
+    const theme = (lightMode === true) ? lightTheme : darkTheme;
+
     // @ts-ignore
     const userM = useSelector((state) => state.appReducer.userMovies);
 
@@ -47,6 +53,33 @@ const MoviesScreen = ({navigation}) => {
         return ( <Loader/>)
     }
 
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: theme.background
+        } ,
+        Title: {
+            color: theme.text,
+            fontSize: 30,
+            fontWeight: "bold",
+            marginVertical: 10,
+        },header:{
+
+            alignItems: 'center',
+            justifyContent: 'center',
+
+            minHeight: 350,
+            width: "100%",
+
+        },
+        settingsButton:{
+            top:0,
+            right:0,
+            margin: 20,
+            zIndex: 100,
+        }
+    })
+
     return(
         <ScrollView style={styles.container}
             onScrollEndDrag={handleRefresh}
@@ -55,48 +88,19 @@ const MoviesScreen = ({navigation}) => {
             }
         >
             <TouchableOpacity onPress={goToSettings} style={styles.settingsButton}>
-                <Settings size={30} color="white" />
+                <Settings size={30} color={theme.text} />
             </TouchableOpacity>
-        
+
             <View style={styles.header}>
                 {
                     <AnimatedLottieView source={require("../assets/bucket.json")} autoPlay loop style={{width: 200, height: 200, marginLeft:7}}/>
                 }
-                <Text style={styles.Title}>MY MOVIES</Text>
+                <Text style={styles.Title}>My Movies</Text>
                 <UserGenres userId={user._id}/>
             </View>
             <UserMovies movies={userM} />
         </ScrollView>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "black"
-    } ,
-    Title: {
-       
-        color: "white",
-        fontSize: 30,
-        fontWeight: "bold",
-        marginVertical: 10,
-    },header:{
-       
-        alignItems: 'center',
-        justifyContent: 'center',
-       
-        minHeight: 350,
-        width: "100%",
-        
-    },
-    settingsButton:{
-
-        top:0,
-        right:0,
-        margin: 20,
-        zIndex: 100,
-    }
-})
 
 export default MoviesScreen
