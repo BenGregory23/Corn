@@ -1,20 +1,28 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native';
-import { Film } from 'lucide-react-native';
+import { ChevronRight} from 'lucide-react-native';
+import { darkTheme, lightTheme } from '../theme/theme';
+import { useSelector } from 'react-redux';
 
-const FriendCard = ({navigation}) => {
-    const friend = {
-        name: 'John Doe',
-    };
+const FriendCard = ({navigation, friend}) => {
+
+   
+   
+    console.log(friend._id);
+    
 
     return (
-        <View style={styles.container} >
-            <Text style={styles.Text}>{friend.name}</Text>
-            <TouchableHighlight style={styles.button} onPress={() => navigation.navigate("Movies")}>
-                   <Text style={{color: "white"}}> Movies</Text>
-            </TouchableHighlight>
-     
-        </View>
+        <TouchableHighlight  onPress={() => navigation.navigate("Movies", {id:12})}>
+            <View style={styles.container}>
+            <View>
+                <Text style={styles.Text}>{friend.name}</Text>
+                <Text style={styles.email}>{friend.email}</Text>
+            </View>
+         
+            
+                <ChevronRight height={30} width={30} color='white' />
+            </View>
+        </TouchableHighlight>
     )
 
 }
@@ -38,6 +46,10 @@ const styles = StyleSheet.create({
         color: "#fff",
         
     }, 
+    email:{
+        fontSize: 12,
+        color: "#fff",
+    },
     button:{
         backgroundColor: "transparent",
         borderRadius: 100,
