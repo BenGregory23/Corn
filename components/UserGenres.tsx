@@ -89,9 +89,8 @@ const UserGenres = ({userId}) => {
                         } key={index}
                         onPress={() => toggleGenre(genre)}
                         >
-                            <Text style={
-                                userGenres.includes(genre) ? {color: "black"} : {color: "white"}
-                            } >{genre}</Text>
+                            <Text style={[userGenres.includes(genre) ? {color: "black"} : {color: "white"}
+                             , styles.text]} >{genre.toUpperCase()}</Text>
                         </TouchableHighlight>   
                     )
                 })
@@ -111,7 +110,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 50,
-        width: 120,
+        width: 140,
         height: 45,
         justifyContent: "center",
         alignItems: "center",
@@ -124,19 +123,22 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 50,
-        width: 120,
+        width: 140,
         height: 45,
         justifyContent: "center",
         alignItems: "center",
     },
     container:{
-        
         width: "100%",
         height: 70,
         maxHeight: 70,
         overflow: "scroll",
         flexWrap: "wrap",
         flexDirection: "row",
+    },
+    text:{
+        fontWeight: "600",
+        fontSize: 15
     }
 })
 
