@@ -48,7 +48,6 @@ const CustomModal = ({ visible, onClose, children }) => {
     <Modal visible={visible} animationType="slide" transparent>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-        
           <View style={styles.modalBody}>{children}</View>
           <TouchableOpacity style={styles.closeButton} onPress={onClose}>
             <Text style={styles.closeButtonText}>Close</Text>

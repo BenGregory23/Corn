@@ -66,7 +66,7 @@ const MoviesScreen = ({navigation}) => {
         container: {
             paddingTop: 40,
             flex: 1,
-            backgroundColor: theme.background
+            backgroundColor: theme.background,
         } ,
         Title: {
             color: theme.text,
@@ -89,6 +89,7 @@ const MoviesScreen = ({navigation}) => {
 
     return(
         <ScrollView style={styles.container}
+                    contentContainerStyle={{paddingBottom: 110}}
             onScrollEndDrag={handleRefresh}
             refreshControl={
                 <RefreshControl refreshing={!loaded} onRefresh={handleRefresh} />
@@ -97,7 +98,6 @@ const MoviesScreen = ({navigation}) => {
             <TouchableOpacity onPress={goToSettings} style={styles.settingsButton}>
                 <Settings size={30} color={theme.text} />
             </TouchableOpacity>
-            
             
             <View style={styles.header}>
                     <AnimatedLottieView source={require("../assets/bucket.json")} ref={lottieRef} autoPlay loop style={{width: 170, height: 170, marginLeft:7}}/>    

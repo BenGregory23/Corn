@@ -15,7 +15,7 @@ const SettingsScreen = ({navigation}) => {
     const theme = (lightMode === true) ? lightTheme : darkTheme;
     console.log(lightMode);
 
-    const  logOut = () =>{
+    const  logOut = () => {
        save("userConnected",false.toString()).then(() => {
             dispatch(setUserConnected(false));
         })

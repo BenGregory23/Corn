@@ -1,48 +1,66 @@
-import {View, StyleSheet, Platform, TouchableHighlight, Text, TextInput, Dimensions, KeyboardAvoidingView} from "react-native"
-import { useSelector } from "react-redux"
-import { darkTheme, lightTheme } from "../theme/theme"
-import { TouchableOpacity } from "react-native-gesture-handler"
+import {
+    View,
+    StyleSheet,
+    Platform,
+    TouchableHighlight,
+    Text,
+    TextInput,
+    Dimensions,
+    KeyboardAvoidingView
+} from "react-native"
+import {useSelector} from "react-redux"
+import {darkTheme, lightTheme} from "../theme/theme"
+import {TouchableOpacity} from "react-native-gesture-handler"
 import AnimatedLottieView from "lottie-react-native"
-import { useState } from "react"
+import {useState} from "react"
 import URL_BACKEND from "../constants/constants"
 import store from "../redux/store"
-import { CornerDownLeft } from "lucide-react-native"
+import {CornerDownLeft} from "lucide-react-native"
+import {useNavigation} from "@react-navigation/native";
 
-const AddFriendScreen = () =>{
-  // @ts-ignore
-  const lightMode = useSelector(state => state.appReducer.lightMode);
-  const theme = (lightMode === true) ? lightTheme : darkTheme;
-  const [friendMail, setFriendMail] = useState("")
-  const user = store.getState().appReducer.user;
+const AddFriendScreen = () => {
+    // @ts-ignore
+    const lightMode = useSelector(state => state.appReducer.lightMode);
+    const theme = (lightMode === true) ? lightTheme : darkTheme;
+    const [friendMail, setFriendMail] = useState("")
+    const user = store.getState().appReducer.user;
+    const [displayText, setDisplayText] = useState(true);
+    const navigation = useNavigation();
 
-  
 
-  const addFriend = () => {
-    if(friendMail === ""){
-        console.log("Please select a friend")
+    const addFriend = () => {
+        if (friendMail === "") {
+            console.log("Please select a friend")
+        } else {
+            fetch(URL_BACKEND + `/users/${user._id}/friends`, {
+                method: 'POST',
+                body: friendMail
+            }).then(response => {
+                console.log(response)
+            })
+                .catch(err => console.error(err))
+        }
     }
 
-    fetch(URL_BACKEND + `/users/${user._id}/friends`,{
-        method: 'POST',
-        body: friendMail
-    }).then(response => {
-        console.log(response)
-    })
-    .catch(err => console.error(err))
+    const handleDisplay = () => {
+        setDisplayText(!displayText);
+    }
 
+    const goBack = () => {
+        navigation.goBack();
     }
 
     const styles = StyleSheet.create({
-        container:{
+        container: {
             flex: 1,
             paddingTop: 40,
             backgroundColor: theme.background,
             alignItems: "center",
-            justifyContent:"space-around",
+            justifyContent: "space-around",
         },
-        button:{
+        button: {
             backgroundColor: theme.button,
-            justifyContent:"center",
+            justifyContent: "center",
             alignItems: "center",
             paddingVertical: 12,
             paddingHorizontal: 80,
@@ -50,12 +68,12 @@ const AddFriendScreen = () =>{
             width: 250,
             marginVertical: 5,
         },
-        text:{
+        text: {
             color: theme.buttonTextColor,
             fontWeight: "700",
             fontSize: 20
         },
-        textInput:{
+        textInput: {
             borderBottomColor: theme.button,
             borderBottomWidth: 2,
             width: 250,
@@ -63,67 +81,71 @@ const AddFriendScreen = () =>{
             margin: 20,
             color: theme.text,
             fontSize: 17,
-            
+
         },
-        info:{
+        info: {
             flexDirection: "row",
-            justifyContent:"center",
+            justifyContent: "center",
             alignContent: "center",
-            
+            display: displayText ? "flex" : "none",
         },
-        title:{
+        title: {
             color: theme.text,
             fontWeight: "700",
             fontSize: 50,
             textAlign: "center",
-            width: 320, 
+            width: 320,
             marginTop: 20
         },
-        infoText:{
+        infoText: {
             color: theme.text,
             fontWeight: "500",
             fontSize: 20,
-            width:320,
+            width: 320,
             textAlign: "justify"
         },
-        backButton:{
-           marginTop: 50,
+        backButton: {
+            marginTop: 50,
         }
     })
 
     return (
-        <KeyboardAvoidingView
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-         style={styles.container}>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                              style={styles.container}>
 
-            <View style={{alignItems:"center", height:"60%", minHeight: 200, justifyContent:"center", marginBottom: 30}}>
-                <AnimatedLottieView source={require("../assets/speaker.json")} autoPlay loop style={{width: 180, height: 180}}/>
+            <View style={{
+                alignItems: "center",
+                height: "60%",
+                minHeight: 200,
+                justifyContent: "center",
+                marginBottom: 30
+            }}>
+                <AnimatedLottieView source={require("../assets/speaker.json")} autoPlay loop
+                                    style={{width: 180, height: 180}}/>
                 <Text style={styles.title}>
                     Add friends!
                 </Text>
 
                 <View style={styles.info}>
                     <Text style={styles.infoText}>
-                        Add friends by entering their email address. You can then see what movies you both want to watch.
+                        Add friends by entering their email address. You can then see what movies you both want to
+                        watch.
                     </Text>
                 </View>
             </View>
-            
-            <View style={{alignItems:"center", height:"40%"}}>
-                    <TextInput style={styles.textInput} keyboardType="email-address" placeholderTextColor={theme.text} placeholder="example@service.com" onChangeText={setFriendMail}/>
 
-                    <TouchableOpacity style={styles.button} onPress={addFriend}>
-                        <Text style={styles.text}>Add</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.backButton}>
-                        <CornerDownLeft color={theme.text} />
-                    </TouchableOpacity>
+            <View style={{alignItems: "center", height: "40%"}}>
+                <TextInput style={styles.textInput} keyboardType="email-address" placeholderTextColor={theme.text}
+                           placeholder="example@service.com" onChangeText={setFriendMail} onFocus={handleDisplay}
+                           onBlur={handleDisplay}/>
+
+                <TouchableOpacity style={styles.button} onPress={addFriend}>
+                    <Text style={styles.text}>Add</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.backButton} onPress={goBack}>
+                    <CornerDownLeft color={theme.text}/>
+                </TouchableOpacity>
             </View>
-
-
-            
-
-        
 
         </KeyboardAvoidingView>
     )

@@ -29,8 +29,6 @@ const UserMovies = ({movies}) => {
   const showMovieDetails = (movie) => {
     setIsModalOpen(true)
     setModalMovie(movie);
-    
-
   }
 
   
@@ -116,7 +114,7 @@ const UserMovies = ({movies}) => {
        
 
 <View style={styles.list}>
-  {movies.map((item, index) => (
+  {movies.reverse().map((item, index) => (
     <TouchableHighlight
       style={styles.movie}
       onPress={() => showMovieDetails(item)}

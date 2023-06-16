@@ -93,6 +93,7 @@ const Navigation = () => {
   
       <Tab.Navigator
         initialRouteName="Home"
+        // @ts-ignore
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarStyle: screenOptions.tabBarStyle,

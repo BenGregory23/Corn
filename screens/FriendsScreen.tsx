@@ -47,7 +47,7 @@ const FriendsScreen = ({navigation}) => {
 
     const styles = StyleSheet.create({
         container:{
-            paddingTop: 40,
+            paddingTop: 50,
             backgroundColor: theme.background,
             height: "100%",
         },
@@ -68,7 +68,12 @@ const FriendsScreen = ({navigation}) => {
             height: 70,
             alignItems: "center",
             justifyContent:"center",
-
+            shadowOffset: {
+                width: 2,
+                height: 2
+            },
+            shadowOpacity: 0.2,
+            shadowRadius: 8,
         },
         text:{
             color: theme.buttonTextColor,
@@ -80,17 +85,11 @@ const FriendsScreen = ({navigation}) => {
 
     return(
         <View style={styles.container}>
-
-          <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate("Add", {user: user})}>
-            
+            <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate("Add", {user: user})}>
                 <UserPlus2 color={theme.buttonTextColor} width={30} height={30}/>
-            
-           
-          </TouchableOpacity>
+            </TouchableOpacity>
 
-            <FlatList data={friends} renderItem={renderItem} />
-
-
+            <FlatList data={friends} renderItem={renderItem}/>
         </View>
     )
 

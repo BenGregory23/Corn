@@ -18,12 +18,13 @@ const FriendCard = ({navigation, friend}) => {
             borderWidth: 2,
             borderColor: theme.button,
             borderRadius: 7,
-            justifyContent: "center",
             alignItems: "center",
-            padding: 25,
+            padding: 20,
             margin:5,
+            marginLeft: 15,
+            marginRight: 15,
             flexDirection: "row",
-            justifyContent: "space-between",    
+            justifyContent: "space-between",
         },
         Text:{
             fontSize: 20,
@@ -47,10 +48,10 @@ const FriendCard = ({navigation, friend}) => {
     return (
         <TouchableHighlight  onPress={() => navigation.navigate("Movies", {id:friend._id})}>
             <View style={styles.container}>
-            <View>
-                <Text style={styles.Text}>{friend.name}</Text>
-                <Text style={styles.email}>{friend.email}</Text>
-            </View>
+                <View>
+                    <Text style={styles.Text}>{friend.name}</Text>
+                    <Text style={styles.email}>{friend.email}</Text>
+                </View>
                 <ChevronRight height={30} width={30} color={theme.buttonTextColor} />
             </View>
         </TouchableHighlight>
