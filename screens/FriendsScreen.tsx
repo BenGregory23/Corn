@@ -42,7 +42,7 @@ const FriendsScreen = ({navigation}) => {
 
 
     const renderItem = ({ item }) => (
-        <FriendCard friend={ item} navigation={navigation}/>
+        <FriendCard friend={item} navigation={navigation}/>
       );
 
     const styles = StyleSheet.create({
