@@ -77,9 +77,8 @@ const Navigation = () => {
               margin:5,
               marginBottom:0,
               borderRadius:10,
-              height:40,
+              height:30,
               width:30,
-
           },
           tabView:{
 

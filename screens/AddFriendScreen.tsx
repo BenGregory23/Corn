@@ -16,6 +16,7 @@ import URL_BACKEND from "../constants/constants"
 import store from "../redux/store"
 import {CornerDownLeft} from "lucide-react-native"
 import {useNavigation} from "@react-navigation/native";
+import {FR, UK} from "../lang/lang";
 
 
 
@@ -31,6 +32,10 @@ const AddFriendScreen = () => {
 
     // ref to lottie animation
     const lottieRef = useRef<AnimatedLottieView | null>(null);
+
+    // @ts-ignore
+    const language = useSelector(state => state.appReducer.language);
+    const lang = (language == "UK") ? UK : FR;
     
 
 
@@ -136,13 +141,12 @@ const AddFriendScreen = () => {
              <AnimatedLottieView source={require("../assets/speaker.json")} autoPlay loop
                                     style={{width: 180, height: 180}}/>
                 <Text style={styles.title}>
-                    Add friends!
+                    {lang.addFriends}
                 </Text>
 
                 <View style={styles.info}>
                     <Text style={styles.infoText}>
-                        Add friends by entering their email address. You can then see what movies you both want to
-                        watch.
+                        {lang.addFriendsText}
                     </Text>
                 </View>
             </View>
@@ -156,7 +160,7 @@ const AddFriendScreen = () => {
                             fontWeight: "700",
                             textAlign: "center",
                             width: 320,
-                        }}>Friend added!</Text>
+                        }}>{lang.friendAdded}</Text>
                         
                         <TouchableOpacity style={styles.backButton} onPress={goBack}>
                             <CornerDownLeft color={theme.text}/>
@@ -169,7 +173,7 @@ const AddFriendScreen = () => {
                            onBlur={handleDisplay}/>
             
                             <TouchableOpacity style={styles.button} onPress={addFriend}>
-                                    <Text style={styles.text}>Add</Text>
+                                    <Text style={styles.text}>{lang.add}</Text>
                                 </TouchableOpacity>
                             <TouchableOpacity style={styles.backButton} onPress={goBack}>
                                 <CornerDownLeft color={theme.text}/>

@@ -9,6 +9,7 @@ import { fetchUserMovies } from '../redux/actions/userMoviesAction'
 import { Settings } from 'lucide-react-native'
 import Loader from '../components/Loader'
 import {darkTheme, lightTheme} from "../theme/theme";
+import {FR, UK} from "../lang/lang";
 
 
 const MoviesScreen = ({navigation}) => {
@@ -27,10 +28,9 @@ const MoviesScreen = ({navigation}) => {
     const [loaded, setLoaded] = useState(false);
     const lottieRef = useRef<AnimatedLottieView|null>(null);
 
-
-    
-
-   
+    // @ts-ignore
+    const language = useSelector( state => state.appReducer.language);
+    const lang = (language == "UK") ? UK : FR;
 
     useEffect(() => {
       const loadMovies = async () =>{
@@ -80,7 +80,7 @@ const MoviesScreen = ({navigation}) => {
         },header:{
             alignItems: 'center',
             justifyContent: 'center',
-            minHeight: 350,
+            minHeight: 300,
             width: "100%",
         },
         settingsButton:{
@@ -107,7 +107,7 @@ const MoviesScreen = ({navigation}) => {
             
             <View style={styles.header}>
                     <AnimatedLottieView source={require("../assets/bucket.json")} ref={lottieRef} autoPlay loop style={{width: 170, height: 170, marginLeft:7}}/>    
-                    <Text style={styles.Title}>WATCHLIST</Text>
+                    <Text style={styles.Title}>{lang.watchlist}</Text>
                     <UserGenres userId={user._id}/>
             </View>
             <UserMovies movies={userM} />

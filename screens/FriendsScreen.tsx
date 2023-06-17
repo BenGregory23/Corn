@@ -12,6 +12,9 @@ import { FlatList } from 'react-native-gesture-handler'
 
 import { darkTheme, lightTheme} from "../theme/theme";
 import Loader from '../components/Loader'
+import AnimatedLottieView from "lottie-react-native";
+import UserGenres from "../components/UserGenres";
+import {FR, UK} from "../lang/lang";
 
 const FriendsScreen = ({navigation}) => {
 
@@ -41,6 +44,10 @@ const FriendsScreen = ({navigation}) => {
     // @ts-ignore
     const lightMode = useSelector(state => state.appReducer.lightMode);
     const theme = (lightMode === true) ? lightTheme : darkTheme;
+
+    // @ts-ignore
+    const language = useSelector( state => state.appReducer.language);
+    const lang = (language == "UK") ? UK : FR;
 
   
 
@@ -81,8 +88,16 @@ const FriendsScreen = ({navigation}) => {
             color: theme.buttonTextColor,
             fontWeight: "700",
         
-        }
-       
+        },
+        Title: {
+            color: theme.text,
+            fontSize: 30,
+            fontWeight: "bold",
+            marginVertical: 10,
+        },
+        header:{
+            alignItems: 'center',
+        },
     });
 
 
@@ -94,6 +109,10 @@ const FriendsScreen = ({navigation}) => {
 
     return(
         <View style={styles.container}>
+            <View style={styles.header}>
+                <Text style={styles.Title}>{lang.friends}</Text>
+            </View>
+
             <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate("Add", {user: user})}>
                 <UserPlus2 color={theme.buttonTextColor} width={30} height={30}/>
             </TouchableOpacity>

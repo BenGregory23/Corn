@@ -8,13 +8,18 @@ import { Sun, Moon } from 'lucide-react-native';
 import { setLightMode } from '../redux/actions/themeActions';
 import {lightTheme, darkTheme} from "../theme/theme";
 import Preferences from '../components/Preferences';
+import {FR, UK} from "../lang/lang";
+import {setLanguage} from "../redux/actions/langActions";
 
 const SettingsScreen = ({navigation}) => {
     const dispatch = useDispatch();
     // @ts-ignore
     const lightMode = useSelector(state => state.appReducer.lightMode);
     const theme = (lightMode === true) ? lightTheme : darkTheme;
-    console.log(lightMode);
+
+    // @ts-ignore
+    const language = useSelector( state => state.appReducer.language);
+    const lang = (language == "UK") ? UK : FR;
 
     const  logOut = () => {
        save("userConnected",false.toString()).then(() => {
@@ -66,10 +71,10 @@ const SettingsScreen = ({navigation}) => {
     return(
         <View style={styles.container}>
             <View style={styles.header}>
-            <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Movies')}>
-                <ChevronLeft size={30} color={theme.text} />
-            </TouchableOpacity>
-            <Text style={styles.title}>Settings</Text>
+                <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Movies')}>
+                    <ChevronLeft size={30} color={theme.text} />
+                </TouchableOpacity>
+                <Text style={styles.title}>{lang.settings}</Text>
             </View>
 
             <Preferences theme={theme}/>
@@ -82,10 +87,14 @@ const SettingsScreen = ({navigation}) => {
                 }
             </TouchableOpacity>
 
-
+            <TouchableOpacity style={styles.button} onPress={ () =>  {
+                dispatch(setLanguage((language == "UK") ? "FR" : "UK"));
+            }}>
+                <Text style={styles.buttonText}>{(language == "UK") ? "English" : "Français"}</Text>
+            </TouchableOpacity>
 
             <TouchableOpacity style={styles.button} onPress={ () =>  logOut()}>
-                <Text style={styles.buttonText}>Log out</Text>
+                <Text style={styles.buttonText}>{lang.logout}</Text>
             </TouchableOpacity>
         </View>
     )

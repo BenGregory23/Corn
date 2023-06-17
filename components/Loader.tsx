@@ -3,25 +3,18 @@ import { View, StyleSheet, Text, Dimensions } from 'react-native'
 import AnimatedLottieView from 'lottie-react-native'
 import { useSelector } from 'react-redux'
 import { lightTheme, darkTheme } from '../theme/theme'
+import {FR, UK} from "../lang/lang";
 
 const Loader = () => {
 
-        // @ts-ignore
-        const lightMode = useSelector(state => state.appReducer.lightMode)
-        const theme = (lightMode === true) ? lightTheme : darkTheme;
+    // @ts-ignore
+    const lightMode = useSelector(state => state.appReducer.lightMode)
+    const theme = (lightMode === true) ? lightTheme : darkTheme;
+    // @ts-ignore
+    const language = useSelector(state => state.appReducer.language);
+    const lang = (language == "UK") ? UK : FR;
 
-    const [loadingSentences, setLoadingSentences] = useState([
-        "Loading recommendations...",
-        "Finding movies for you...",
-        "Just a moment...",
-        "Almost there...",
-        "Hold on tight...",
-        "Fetching personalized movies...",
-        "Preparing your movie list...",
-        "Scanning our database...",
-        "Matching your preferences...",
-        "Searching for movie gems...",
-      ]);
+    const [loadingSentences, setLoadingSentences] = useState(lang.loadingSentences);
 
 
 

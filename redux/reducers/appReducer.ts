@@ -1,4 +1,4 @@
-import { FETCH_USER_MOVIES, SET_USER_CONNECTED, SET_USER, SET_LIGHT_MODE, REMOVE_USER_MOVIE, ADD_USER_MOVIE } from "../constants"
+import { FETCH_USER_MOVIES, SET_USER_CONNECTED, SET_USER, SET_LIGHT_MODE, REMOVE_USER_MOVIE, ADD_USER_MOVIE, SET_LANGUAGE } from "../constants"
 
 const initialState = {
     userMovies: [],
@@ -6,7 +6,8 @@ const initialState = {
     user: {
         _id : "",
     },
-    lightMode: false
+    lightMode: false,
+    language: "UK",
 }
 
 
@@ -41,6 +42,11 @@ const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 lightMode: action.payload
+            }
+        case SET_LANGUAGE:
+            return {
+                ...state,
+                language: action.payload
             }
         default:
             return state;
