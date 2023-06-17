@@ -21,14 +21,14 @@ const FriendCard = ({navigation, friend}) => {
             alignItems: "center",
             padding: 20,
             margin:5,
-            marginLeft: 15,
-            marginRight: 15,
+            marginLeft: 20,
+            marginRight: 20,
             flexDirection: "row",
             justifyContent: "space-between",
         },
         Text:{
             fontSize: 20,
-            fontWeight: "500",
+            fontWeight: "700",
             color: theme.buttonTextColor,
             
         }, 

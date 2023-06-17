@@ -2,21 +2,22 @@ import {
     View,
     StyleSheet,
     Platform,
-    TouchableHighlight,
     Text,
     TextInput,
-    Dimensions,
-    KeyboardAvoidingView
+    KeyboardAvoidingView,
+    Image,
 } from "react-native"
 import {useSelector} from "react-redux"
 import {darkTheme, lightTheme} from "../theme/theme"
 import {TouchableOpacity} from "react-native-gesture-handler"
 import AnimatedLottieView from "lottie-react-native"
-import {useState} from "react"
+import {useState, useRef} from "react"
 import URL_BACKEND from "../constants/constants"
 import store from "../redux/store"
 import {CornerDownLeft} from "lucide-react-native"
 import {useNavigation} from "@react-navigation/native";
+
+
 
 const AddFriendScreen = () => {
     // @ts-ignore
@@ -26,6 +27,11 @@ const AddFriendScreen = () => {
     const user = store.getState().appReducer.user;
     const [displayText, setDisplayText] = useState(true);
     const navigation = useNavigation();
+    const [success, setSuccess] = useState(false);
+
+    // ref to lottie animation
+    const lottieRef = useRef<AnimatedLottieView | null>(null);
+    
 
 
     const addFriend = () => {
@@ -36,7 +42,14 @@ const AddFriendScreen = () => {
                 method: 'POST',
                 body: friendMail
             }).then(response => {
-                console.log(response)
+               
+                if (response.status === 200) {
+                    setSuccess(true);
+                    setTimeout(() => {
+                        navigation.goBack();
+                    }, 2000);
+                }
+               
             })
                 .catch(err => console.error(err))
         }
@@ -120,7 +133,7 @@ const AddFriendScreen = () => {
                 justifyContent: "center",
                 marginBottom: 30
             }}>
-                <AnimatedLottieView source={require("../assets/speaker.json")} autoPlay loop
+             <AnimatedLottieView source={require("../assets/speaker.json")} autoPlay loop
                                     style={{width: 180, height: 180}}/>
                 <Text style={styles.title}>
                     Add friends!
@@ -133,19 +146,38 @@ const AddFriendScreen = () => {
                     </Text>
                 </View>
             </View>
-
-            <View style={{alignItems: "center", height: "40%"}}>
-                <TextInput style={styles.textInput} keyboardType="email-address" placeholderTextColor={theme.text}
+            
+            {
+                    success === true ?  
+                    <View style={{alignItems: "center", height: "40%"}}>
+                        <Text style={{
+                            color: theme.text,
+                            fontSize: 22,
+                            fontWeight: "700",
+                            textAlign: "center",
+                            width: 320,
+                        }}>Friend added!</Text>
+                        
+                        <TouchableOpacity style={styles.backButton} onPress={goBack}>
+                            <CornerDownLeft color={theme.text}/>
+                        </TouchableOpacity>
+                    </View>
+                    :        
+                    <View style={{alignItems: "center", height: "40%"}}>
+                        <TextInput style={styles.textInput} keyboardType="email-address" placeholderTextColor={theme.text}
                            placeholder="example@service.com" onChangeText={setFriendMail} onFocus={handleDisplay}
                            onBlur={handleDisplay}/>
-
-                <TouchableOpacity style={styles.button} onPress={addFriend}>
-                    <Text style={styles.text}>Add</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.backButton} onPress={goBack}>
-                    <CornerDownLeft color={theme.text}/>
-                </TouchableOpacity>
-            </View>
+            
+                            <TouchableOpacity style={styles.button} onPress={addFriend}>
+                                    <Text style={styles.text}>Add</Text>
+                                </TouchableOpacity>
+                            <TouchableOpacity style={styles.backButton} onPress={goBack}>
+                                <CornerDownLeft color={theme.text}/>
+                            </TouchableOpacity>
+                </View>  
+                   
+                }
+            
 
         </KeyboardAvoidingView>
     )

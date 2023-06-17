@@ -26,6 +26,10 @@ const MoviesScreen = ({navigation}) => {
 
     const [loaded, setLoaded] = useState(false);
     const lottieRef = useRef<AnimatedLottieView|null>(null);
+
+
+    
+
    
 
     useEffect(() => {
@@ -88,24 +92,28 @@ const MoviesScreen = ({navigation}) => {
     })
 
     return(
-        <ScrollView style={styles.container}
+        <View style={{flex:1, backgroundColor: theme.background}}>
+                <ScrollView style={styles.container}
                     contentContainerStyle={{paddingBottom: 110}}
-            onScrollEndDrag={handleRefresh}
+            //onScrollEndDrag={handleRefresh}
             refreshControl={
                 <RefreshControl refreshing={!loaded} onRefresh={handleRefresh} />
             }
         >
+        
             <TouchableOpacity onPress={goToSettings} style={styles.settingsButton}>
                 <Settings size={30} color={theme.text} />
             </TouchableOpacity>
             
             <View style={styles.header}>
                     <AnimatedLottieView source={require("../assets/bucket.json")} ref={lottieRef} autoPlay loop style={{width: 170, height: 170, marginLeft:7}}/>    
-                    <Text style={styles.Title}>My Movies</Text>
+                    <Text style={styles.Title}>WATCHLIST</Text>
                     <UserGenres userId={user._id}/>
             </View>
             <UserMovies movies={userM} />
         </ScrollView>
+        </View>
+        
         
     )
 }

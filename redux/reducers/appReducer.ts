@@ -1,4 +1,4 @@
-import { FETCH_USER_MOVIES, SET_USER_CONNECTED, SET_USER, SET_LIGHT_MODE } from "../constants"
+import { FETCH_USER_MOVIES, SET_USER_CONNECTED, SET_USER, SET_LIGHT_MODE, REMOVE_USER_MOVIE, ADD_USER_MOVIE } from "../constants"
 
 const initialState = {
     userMovies: [],
@@ -16,6 +16,16 @@ const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userMovies: action.payload
+            }
+        case REMOVE_USER_MOVIE:
+            return {
+                ...state,
+                userMovies: state.userMovies.filter(movie => movie.id_tmdb !== action.payload)
+            }
+        case ADD_USER_MOVIE:
+            return {
+                ...state,
+                userMovies: [...state.userMovies, action.payload]
             }
         case SET_USER_CONNECTED:
             return {

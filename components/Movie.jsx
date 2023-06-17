@@ -3,7 +3,8 @@ import { View, StyleSheet, Image, Dimensions, Animated} from 'react-native';
 import Swiper from 'react-native-deck-swiper';
 import BackgroundImage from './BackgroundImage';
 import Loader from './Loader';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { addUserMovie } from '../redux/actions/userMoviesAction';
 
 const Movie = () => {
  
@@ -12,11 +13,11 @@ const Movie = () => {
   const [cardIndexState, setCardIndexState] = useState(0);
 
   const user = useSelector(state => state.appReducer.user);
+  const dispatch = useDispatch();
 
 - 
 
   useEffect(() => {
-    console.log("Movie", user);
     if(loaded == false){
       fetchRandomMovies();
     }
@@ -24,23 +25,9 @@ const Movie = () => {
 
   
   const swipeRight = (title, poster_path, id) => {
-    const url = `https://evening-shore-83627.herokuapp.com/users/${user._id}/movies`;
-    
+ 
 
-
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({name: title, poster: poster_path, id_tmdb:id})
-    })
-    .then(data => {
-      
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+    dispatch(addUserMovie(user._id,title, poster_path,id));
   }
 
  
@@ -52,7 +39,7 @@ const Movie = () => {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("RANDOM",data);
+       
         setLoaded(false); // Reset loaded state to false
         setMovies(data); // Set movies state to the results
         

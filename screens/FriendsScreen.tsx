@@ -11,10 +11,11 @@ import { useSelector } from 'react-redux'
 import { FlatList } from 'react-native-gesture-handler'
 
 import { darkTheme, lightTheme} from "../theme/theme";
+import Loader from '../components/Loader'
 
 const FriendsScreen = ({navigation}) => {
 
-
+    const [loaded, setLoaded] = useState(false);
     const [friends, setFriends] = useState([]);
 
     // @ts-ignore
@@ -23,16 +24,20 @@ const FriendsScreen = ({navigation}) => {
 
 
     useEffect(() => {
-        fetch(URL_BACKEND + `/users/${user._id}/friends`,{
-            method: 'GET'
-        })
-        .then((response) => response.json()).then(response => {
-            // @ts-ignore
-            setFriends(response)
 
-        })
+        if(!loaded){
+            fetch(URL_BACKEND + `/users/${user._id}/friends`,{
+                method: 'GET'
+            })
+            .then((response) => response.json()).then(response => {
+                // @ts-ignore
+                setFriends(response)
+                setLoaded(true)
+            })
+        }
 
-    },[])
+
+    },[loaded])
     // @ts-ignore
     const lightMode = useSelector(state => state.appReducer.lightMode);
     const theme = (lightMode === true) ? lightTheme : darkTheme;
@@ -50,9 +55,6 @@ const FriendsScreen = ({navigation}) => {
             paddingTop: 50,
             backgroundColor: theme.background,
             height: "100%",
-        },
-        header:{
-
         },
         button:{
             position: "absolute",
@@ -82,6 +84,13 @@ const FriendsScreen = ({navigation}) => {
         }
        
     });
+
+
+    if(!loaded){
+        return(
+            <Loader/>
+        )
+    }
 
     return(
         <View style={styles.container}>

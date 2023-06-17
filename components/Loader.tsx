@@ -7,7 +7,7 @@ import { lightTheme, darkTheme } from '../theme/theme'
 const Loader = () => {
 
         // @ts-ignore
-        const lightMode = useSelector(state => state.appReducer.state)
+        const lightMode = useSelector(state => state.appReducer.lightMode)
         const theme = (lightMode === true) ? lightTheme : darkTheme;
 
     const [loadingSentences, setLoadingSentences] = useState([

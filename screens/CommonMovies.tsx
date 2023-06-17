@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     text:{
-        color: theme.text,
+        color: theme.buttonTextColor,
         fontSize: 17,
         fontWeight: "bold",
         textAlign: "center",
@@ -169,7 +169,10 @@ const styles = StyleSheet.create({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("Friends")}>
+    
+        <TouchableOpacity style={styles.backButton} onPress={() => {
+            // @ts-ignore
+            navigation.navigate("Friends")}}>
           <ChevronLeft size={30} color={theme.text} />
         </TouchableOpacity>
         <Text style={styles.title}>Shared Movies</Text>

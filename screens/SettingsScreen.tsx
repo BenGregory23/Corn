@@ -7,6 +7,7 @@ import { deleteValueFor, getValueFor, save } from '../utils/secureStore';
 import { Sun, Moon } from 'lucide-react-native';
 import { setLightMode } from '../redux/actions/themeActions';
 import {lightTheme, darkTheme} from "../theme/theme";
+import Preferences from '../components/Preferences';
 
 const SettingsScreen = ({navigation}) => {
     const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const SettingsScreen = ({navigation}) => {
             paddingVertical: 15,
             paddingHorizontal: 10,
             borderRadius: 12,
-            margin: 20,
+            margin: 10,
             justifyContent: "center",
             alignItems: "center",
         },
@@ -71,13 +72,14 @@ const SettingsScreen = ({navigation}) => {
             <Text style={styles.title}>Settings</Text>
             </View>
 
+            <Preferences theme={theme}/>
+
             <TouchableOpacity style={styles.button} onPress={() => {
                 dispatch(setLightMode(!lightMode));
             }}>
                 {
                     lightMode === true ? <Moon size={30} color={theme.buttonTextColor} /> : <Sun size={30} color={theme.buttonTextColor} />
                 }
-               
             </TouchableOpacity>
 
 

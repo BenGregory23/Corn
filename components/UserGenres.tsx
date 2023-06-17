@@ -13,20 +13,19 @@ const UserGenres = ({userId}) => {
 
     useEffect(() => {
             if(!genresFetched){
-                console.log("fetching")
+        
             fetch(`https://evening-shore-83627.herokuapp.com/users/${userId}/genres`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                 },
             })
-            .then((response) => response.json())
             .then((data) => {
-                console.log(data)
+                // @ts-ignore
                 //setUserGenres(data)
                 //setGenresFetched(true)
                 
-            })
+              })
             .catch((error) => {
                 console.error("GENRES",error)
             })

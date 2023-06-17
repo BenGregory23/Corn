@@ -41,7 +41,6 @@ const SignUpScreen = ({navigation}) => {
             },
         })
         .then((data) => {
-            console.log('Success:', data);
             navigation.replace('Login');
         })
     }

@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 import {darkTheme, lightTheme} from "../theme/theme";
 import {useState} from "react"
 import CustomModal from "./CustomModal";
+import { useDispatch } from "react-redux";
+import { removeUserMovie } from "../redux/actions/userMoviesAction";
+import RemoveMovies from "./RemoveMovies";
 
 
 
@@ -13,6 +16,7 @@ import CustomModal from "./CustomModal";
 const UserMovies = ({movies}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMovie, setModalMovie] = useState({});
+  const [moviesToRemove, setMoviesToRemove] = useState([]);
 
   // @ts-ignore
   const user = useSelector(state => state.appReducer.user)
@@ -21,37 +25,43 @@ const UserMovies = ({movies}) => {
 
   const theme = lightMode === true ? lightTheme : darkTheme
 
+  const dispatch = useDispatch();
+
 
   const closeModal = () => {
     setIsModalOpen(false);
   }
 
   const showMovieDetails = (movie) => {
-    setIsModalOpen(true)
-    setModalMovie(movie);
+
+    const url = `https://api.themoviedb.org/3/movie/${movie.id_tmdb}?language=en-US`;
+    const options = {
+      method: 'GET',
+      headers: {
+        accept: 'application/json',
+        Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0MmI4YTc5MjJjYzJkMDNlZDcyMGEyNGNiYTAyOTc0NCIsInN1YiI6IjY0NDEzOGEzZTJiY2E4MDQ2MTQyY2M4NyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.y41XlBVWlXLlH-mfLkuMHFhwkh_bdp7q3EyG0-_KH_s'
+      }
+    };
+    
+    fetch(url, options)
+      .then(res => res.json())
+      .then(json => {
+        setModalMovie(json)
+        setIsModalOpen(true)
+      })
+      .catch(err => console.error('error:' + err));
   }
 
   
   const removeMovie = (movie) => {
-  
-    console.log(URL_BACKEND + `/users/${user._id}/movies`)
-
-    console.log(movie.name, movie.poster, movie.id_tmdb)
-    fetch(URL_BACKEND + `/users/${user._id}/movies`,{
-    method: 'DELETE',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body : {
-      // @ts-ignore
-      "name": movie.name,
-      "poster": movie.poster,
-      "id_tmdb":  movie.id_tmdb
-    }
-  }).then(res => res.json())
-  .then(res => console.log(res))
-  .catch(err =>console.log(err))
+    dispatch(removeUserMovie(user._id, movie))
+    closeModal();
   }  
+
+
+ 
+
+
   if ( !movies && movies.length === 0) {
     return <Loader />;
   }
@@ -99,14 +109,60 @@ const UserMovies = ({movies}) => {
       maxWidth: "100%",
       flexWrap: "wrap",
     },
-    seenButton:{
-      backgroundColor: "green",
-      padding: 10,
-
-      
-    }
-    
+    toRemove:{
+      opacity: 0.5,
+    },
   });
+
+
+
+  const modalStyles = StyleSheet.create({
+    title:{
+      color: theme.text,
+      fontSize: 20,
+      fontWeight: "bold",
+      marginVertical: 10,
+      textAlign: "center",
+    },
+    overview:{
+      color: theme.text,
+      fontSize: 15,
+      marginVertical: 10,
+      textAlign: "justify",
+    },
+    genres:{
+      flexDirection: "row",
+      flexWrap: "wrap",
+    },
+    genre:{
+      margin: 3,
+      backgroundColor: theme.button,
+      paddingVertical: 5,
+      paddingHorizontal: 15,
+      borderRadius: 50,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+
+    delete:{
+      backgroundColor: "transparent",
+      borderWidth: 1,
+      borderColor:"red",
+      paddingVertical: 10,
+      paddingHorizontal: 15,
+      borderRadius: 10,
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: 20,
+      width: "100%",
+      alignSelf: "center",
+    },
+    textDelete:{
+      color: "red",
+      fontSize: 15,
+      fontWeight: "bold",
+    }
+  })
 
   if(movies.length > 0){
   return (
@@ -114,10 +170,18 @@ const UserMovies = ({movies}) => {
        
 
 <View style={styles.list}>
-  {movies.reverse().map((item, index) => (
+  {movies.map((item, index) => (
     <TouchableHighlight
-      style={styles.movie}
+      style={[styles.movie, moviesToRemove.includes(item) && styles.toRemove]}
       onPress={() => showMovieDetails(item)}
+      delayLongPress={200}
+      onLongPress={() => {
+        if(moviesToRemove.includes(item)){
+          setMoviesToRemove(moviesToRemove.filter(movie => movie !== item))
+          return;
+        }
+        setMoviesToRemove([...moviesToRemove, item])
+      }}
       key={index}
     >
       <Image
@@ -133,15 +197,40 @@ const UserMovies = ({movies}) => {
 
       <CustomModal visible={isModalOpen} onClose={closeModal} >
           
-          <Text style={styles.text}>
-            {modalMovie.name}
+          <Text style={modalStyles.title}>
+            {modalMovie.title}
           </Text>
 
-          <TouchableHighlight style={styles.seenButton}>
-           <Text style={styles.text} > I've seen it !</Text>
-          </TouchableHighlight>
-        
+          <Text style={modalStyles.overview}>
+            {modalMovie.overview}
+          </Text>
+
+          <View style={modalStyles.genres}>
+
+            {
+              modalMovie.genres && modalMovie.genres.map((genre, index) => (
+                <View style={modalStyles.genre} key={index}>
+                  <Text style={{color:theme.buttonTextColor}}>
+                    {genre.name}
+                  </Text>
+                 
+                </View>
+              ))
+            }
+          </View>
+
+
+          <TouchableOpacity style={modalStyles.delete} onPress={() => removeMovie(modalMovie)}>
+            <Text style={modalStyles.textDelete}>
+              Delete
+            </Text>
+          </TouchableOpacity>
         </CustomModal>
+
+
+        
+
+        <RemoveMovies moviesToRemove={moviesToRemove} setMoviesToRemove={setMoviesToRemove} removeMovie={removeMovie} />
      
       
        
