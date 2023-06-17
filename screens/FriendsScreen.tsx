@@ -14,7 +14,7 @@ import { darkTheme, lightTheme} from "../theme/theme";
 import Loader from '../components/Loader'
 import AnimatedLottieView from "lottie-react-native";
 import UserGenres from "../components/UserGenres";
-import {FR, UK} from "../lang/lang";
+import {FR, EN} from "../lang/lang";
 
 const FriendsScreen = ({navigation}) => {
 
@@ -47,7 +47,7 @@ const FriendsScreen = ({navigation}) => {
 
     // @ts-ignore
     const language = useSelector( state => state.appReducer.language);
-    const lang = (language == "UK") ? UK : FR;
+    const lang = (language == "EN") ? EN : FR;
 
   
 

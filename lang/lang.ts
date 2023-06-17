@@ -1,4 +1,4 @@
-export const UK = {
+export const EN = {
     watchlist: "WATCHLIST",
     friends: "My friends",
     logout: "Log out",

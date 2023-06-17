@@ -9,6 +9,7 @@ import CustomModal from "./CustomModal";
 import { useDispatch } from "react-redux";
 import { removeUserMovie } from "../redux/actions/userMoviesAction";
 import RemoveMovies from "./RemoveMovies";
+import {FR, EN} from "../lang/lang";
 
 
 
@@ -22,8 +23,11 @@ const UserMovies = ({movies}) => {
   const user = useSelector(state => state.appReducer.user)
   // @ts-ignore
   const lightMode = useSelector(state => state.appReducer.lightMode)
-
   const theme = lightMode === true ? lightTheme : darkTheme
+
+  // @ts-ignore
+  const language = useSelector( state => state.appReducer.language);
+  const lang = (language == "EN") ? EN : FR;
 
   const dispatch = useDispatch();
 
@@ -34,7 +38,7 @@ const UserMovies = ({movies}) => {
 
   const showMovieDetails = (movie) => {
 
-    const url = `https://api.themoviedb.org/3/movie/${movie.id_tmdb}?language=en-US`;
+    const url = `https://api.themoviedb.org/3/movie/${movie.id_tmdb}?language=${language == "EN" ? "en-US" : "fr-FR"}`;
     const options = {
       method: 'GET',
       headers: {

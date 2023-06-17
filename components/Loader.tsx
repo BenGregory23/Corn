@@ -3,7 +3,7 @@ import { View, StyleSheet, Text, Dimensions } from 'react-native'
 import AnimatedLottieView from 'lottie-react-native'
 import { useSelector } from 'react-redux'
 import { lightTheme, darkTheme } from '../theme/theme'
-import {FR, UK} from "../lang/lang";
+import {FR, EN} from "../lang/lang";
 
 const Loader = () => {
 
@@ -12,7 +12,7 @@ const Loader = () => {
     const theme = (lightMode === true) ? lightTheme : darkTheme;
     // @ts-ignore
     const language = useSelector(state => state.appReducer.language);
-    const lang = (language == "UK") ? UK : FR;
+    const lang = (language == "EN") ? EN : FR;
 
     const [loadingSentences, setLoadingSentences] = useState(lang.loadingSentences);
 

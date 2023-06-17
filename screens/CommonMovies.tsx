@@ -17,7 +17,7 @@ import {darkTheme, lightTheme} from "../theme/theme";
 import {useSelector} from "react-redux";
 import store from "../redux/store";
 import {Switch} from "react-native-gesture-handler";
-import {FR, UK} from "../lang/lang";
+import {FR, EN} from "../lang/lang";
 
 const CommonMovies = ({route}) => {
     const navigation = useNavigation();
@@ -39,7 +39,7 @@ const CommonMovies = ({route}) => {
 
     // @ts-ignore
     const language = useSelector(state => state.appReducer.language);
-    const lang = (language == "UK") ? UK : FR;
+    const lang = (language == "EN") ? EN : FR;
 
     const closeModal = () => {
         setIsModalOpen(false);

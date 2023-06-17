@@ -7,7 +7,7 @@ const initialState = {
         _id : "",
     },
     lightMode: false,
-    language: "UK",
+    language: "EN",
 }
 
 

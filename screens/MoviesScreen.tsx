@@ -9,7 +9,7 @@ import { fetchUserMovies } from '../redux/actions/userMoviesAction'
 import { Settings } from 'lucide-react-native'
 import Loader from '../components/Loader'
 import {darkTheme, lightTheme} from "../theme/theme";
-import {FR, UK} from "../lang/lang";
+import {FR, EN} from "../lang/lang";
 
 
 const MoviesScreen = ({navigation}) => {
@@ -30,7 +30,7 @@ const MoviesScreen = ({navigation}) => {
 
     // @ts-ignore
     const language = useSelector( state => state.appReducer.language);
-    const lang = (language == "UK") ? UK : FR;
+    const lang = (language == "EN") ? EN : FR;
 
     useEffect(() => {
       const loadMovies = async () =>{

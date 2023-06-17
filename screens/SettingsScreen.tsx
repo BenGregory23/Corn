@@ -8,7 +8,7 @@ import { Sun, Moon } from 'lucide-react-native';
 import { setLightMode } from '../redux/actions/themeActions';
 import {lightTheme, darkTheme} from "../theme/theme";
 import Preferences from '../components/Preferences';
-import {FR, UK} from "../lang/lang";
+import {FR, EN} from "../lang/lang";
 import {setLanguage} from "../redux/actions/langActions";
 
 const SettingsScreen = ({navigation}) => {
@@ -19,7 +19,7 @@ const SettingsScreen = ({navigation}) => {
 
     // @ts-ignore
     const language = useSelector( state => state.appReducer.language);
-    const lang = (language == "UK") ? UK : FR;
+    const lang = (language == "EN") ? EN : FR;
 
     const  logOut = () => {
        save("userConnected",false.toString()).then(() => {
@@ -88,9 +88,9 @@ const SettingsScreen = ({navigation}) => {
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.button} onPress={ () =>  {
-                dispatch(setLanguage((language == "UK") ? "FR" : "UK"));
+                dispatch(setLanguage((language == "EN") ? "FR" : "EN"));
             }}>
-                <Text style={styles.buttonText}>{(language == "UK") ? "English" : "Français"}</Text>
+                <Text style={styles.buttonText}>{(language == "EN") ? "English" : "Français"}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.button} onPress={ () =>  logOut()}>

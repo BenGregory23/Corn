@@ -16,7 +16,7 @@ import URL_BACKEND from "../constants/constants"
 import store from "../redux/store"
 import {CornerDownLeft} from "lucide-react-native"
 import {useNavigation} from "@react-navigation/native";
-import {FR, UK} from "../lang/lang";
+import {FR, EN} from "../lang/lang";
 
 
 
@@ -35,7 +35,7 @@ const AddFriendScreen = () => {
 
     // @ts-ignore
     const language = useSelector(state => state.appReducer.language);
-    const lang = (language == "UK") ? UK : FR;
+    const lang = (language == "EN") ? EN : FR;
     
 
 
