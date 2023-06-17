@@ -69,6 +69,7 @@ const Navigation = () => {
               //margin:25,
               //backgroundColor:'rgba(171, 35, 70,  1)',
               backgroundColor: theme.background,
+              opacity: 0.93,
               height:70,
               borderTopWidth:1,
               borderTopColor:theme.menuBorder,
@@ -89,7 +90,6 @@ const Navigation = () => {
     return (
 
       <NavigationContainer>
-  
       <Tab.Navigator
         initialRouteName="Home"
         // @ts-ignore
