@@ -10,7 +10,7 @@ import { Settings } from 'lucide-react-native'
 import Loader from '../components/Loader'
 import {darkTheme, lightTheme} from "../theme/theme";
 import {FR, EN} from "../lang/lang";
-
+import { removeUserMovie } from '../redux/actions/userMoviesAction'
 
 const MoviesScreen = ({navigation}) => {
     // @ts-ignore
@@ -93,25 +93,17 @@ const MoviesScreen = ({navigation}) => {
 
     return(
         <View style={{flex:1, backgroundColor: theme.background}}>
-                <ScrollView style={styles.container}
-                    contentContainerStyle={{paddingBottom: 110}}
-            //onScrollEndDrag={handleRefresh}
-            refreshControl={
-                <RefreshControl refreshing={!loaded} onRefresh={handleRefresh} />
-            }
-        >
+                <View style={styles.container}
+                
+                    //contentContainerStyle={{paddingBottom: 110}}
+                >       
         
             <TouchableOpacity onPress={goToSettings} style={styles.settingsButton}>
                 <Settings size={30} color={theme.text} />
             </TouchableOpacity>
-            
-            <View style={styles.header}>
-                    <AnimatedLottieView source={require("../assets/bucket.json")} ref={lottieRef} autoPlay loop style={{width: 170, height: 170, marginLeft:7}}/>    
-                    <Text style={styles.Title}>{lang.watchlist}</Text>
-                    <UserGenres userId={user._id}/>
-            </View>
+
             <UserMovies movies={userM} />
-        </ScrollView>
+        </View>
         </View>
         
         

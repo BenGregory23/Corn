@@ -1,5 +1,6 @@
 import React from "react";
-import { Modal, View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
+import Modal from "react-native-modal";
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from "react-native";
 import { useSelector } from "react-redux";
 import { darkTheme, lightTheme } from "../theme/theme";
 import { X } from "lucide-react-native";
@@ -62,7 +63,7 @@ const CustomModal = ({ visible, onClose, children }) => {
 
 
   return (
-    <Modal visible={visible} animationType="slide" transparent>
+    <Modal isVisible={visible} animationIn={'bounceInUp'} animationOut={"bounceOutDown"} coverScreen onBackdropPress={onClose} hasBackdrop={false} >
       <TouchableOpacity style={styles.modalContainer} onPress={onClose}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>

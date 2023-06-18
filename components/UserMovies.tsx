@@ -1,15 +1,18 @@
 import Loader from "./Loader";
-import { View, Text, StyleSheet, Image, Platform, Dimensions, TouchableHighlight, Pressable, TouchableOpacity } from "react-native";
+import { View, ScrollView, Text, StyleSheet, Image, Platform, Dimensions, TouchableHighlight, Pressable, TouchableOpacity } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import URL_BACKEND from "../constants/constants";
 import { useSelector } from "react-redux";
 import {darkTheme, lightTheme} from "../theme/theme";
-import {useState} from "react"
+import {useState, useRef} from "react"
 import CustomModal from "./CustomModal";
 import { useDispatch } from "react-redux";
 import { removeUserMovie } from "../redux/actions/userMoviesAction";
 import RemoveMovies from "./RemoveMovies";
 import {FR, EN} from "../lang/lang";
+import AnimatedLottieView from 'lottie-react-native'
+import UserGenres from "./UserGenres";
+
 
 
 
@@ -30,6 +33,8 @@ const UserMovies = ({movies}) => {
   const lang = (language == "EN") ? EN : FR;
 
   const dispatch = useDispatch();
+
+  const lottieRef = useRef<AnimatedLottieView|null>(null);
 
 
   const closeModal = () => {
@@ -73,12 +78,15 @@ const UserMovies = ({movies}) => {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: "black",
+      backgroundColor: theme.background,
       justifyContent: "center",
       alignItems: "center"
     },
     scrollContent:{
-      justifyContent: "center"
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "row",
+      flexWrap: "wrap",
     },
     movie: {
       height: 150,
@@ -116,6 +124,18 @@ const UserMovies = ({movies}) => {
     toRemove:{
       opacity: 0.5,
     },
+    header:{
+      alignItems: 'center',
+      justifyContent: 'center',
+      
+      width: "100%",
+  },
+  Title: {
+    color: theme.text,
+    fontSize: 30,
+    fontWeight: "bold",
+    marginVertical: 10,
+}
   });
 
 
@@ -170,31 +190,42 @@ const UserMovies = ({movies}) => {
 
   if(movies.length > 0){
   return (
-      <View style={styles.scrollContent}>
+      <View style={styles.container}>
        
 
-<View style={styles.list}>
-  {movies.map((item, index) => (
-    <TouchableHighlight
-      style={[styles.movie, moviesToRemove.includes(item) && styles.toRemove]}
-      onPress={() => showMovieDetails(item)}
-      delayLongPress={200}
-      onLongPress={() => {
-        if(moviesToRemove.includes(item)){
-          setMoviesToRemove(moviesToRemove.filter(movie => movie !== item))
-          return;
-        }
-        setMoviesToRemove([...moviesToRemove, item])
-      }}
-      key={index}
+    <ScrollView contentContainerStyle={styles.scrollContent}
+      StickyHeaderComponent={
+        ()=> (
+          <View style={styles.header}>
+                    <AnimatedLottieView source={require("../assets/bucket.json")} ref={lottieRef} autoPlay loop style={{width: 150, height: 150, marginLeft:7}}/>    
+                    <Text style={styles.Title}>WATCHLIST</Text>
+                    <UserGenres userId={user._id}/>
+            </View>
+        )
+      }
+      stickyHeaderIndices={[0]}
     >
-      <Image
-        source={{ uri: "https://image.tmdb.org/t/p/w500/" + item.poster }}
-        style={styles.poster}
-      />
-    </TouchableHighlight>
-  ))}
-</View>
+      {movies.map((item, index) => (
+        <TouchableHighlight
+          style={[styles.movie, moviesToRemove.includes(item) && styles.toRemove]}
+          onPress={() => showMovieDetails(item)}
+          delayLongPress={200}
+          onLongPress={() => {
+            if(moviesToRemove.includes(item)){
+              setMoviesToRemove(moviesToRemove.filter(movie => movie !== item))
+              return;
+            }
+            setMoviesToRemove([...moviesToRemove, item])
+          }}
+          key={index}
+        >
+          <Image
+            source={{ uri: "https://image.tmdb.org/t/p/w500/" + item.poster }}
+            style={styles.poster}
+          />
+        </TouchableHighlight>
+      ))}
+    </ScrollView>
 
 
 

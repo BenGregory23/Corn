@@ -22,7 +22,7 @@ const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 userMovies: state.userMovies.filter(movie => movie.id_tmdb !== action.payload)
-            }
+            }  
         case ADD_USER_MOVIE:
             return {
                 ...state,
