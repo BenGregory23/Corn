@@ -87,6 +87,7 @@ const UserMovies = ({movies}) => {
       alignItems: "center",
       flexDirection: "row",
       flexWrap: "wrap",
+      paddingBottom: 100,
     },
     movie: {
       height: 150,
