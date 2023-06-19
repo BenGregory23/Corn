@@ -208,7 +208,19 @@ const UserMovies = ({movies}) => {
       {movies.map((item, index) => (
         <TouchableHighlight
           style={[styles.movie, moviesToRemove.includes(item) && styles.toRemove]}
-          onPress={() => showMovieDetails(item)}
+          onPress={() => {
+              if(moviesToRemove.length > 0 ){
+                 if(moviesToRemove.includes(item)){
+                  setMoviesToRemove(moviesToRemove.filter(movie => movie !== item))
+                  return;
+                 }
+                  setMoviesToRemove([...moviesToRemove, item])
+            
+              }
+              else {
+                showMovieDetails(item)
+              }
+          }}
           delayLongPress={200}
           onLongPress={() => {
             if(moviesToRemove.includes(item)){
