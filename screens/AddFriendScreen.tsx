@@ -5,7 +5,8 @@ import {
     Text,
     TextInput,
     KeyboardAvoidingView,
-    Image,
+    TouchableWithoutFeedback,
+    Keyboard
 } from "react-native"
 import {useSelector} from "react-redux"
 import {darkTheme, lightTheme} from "../theme/theme"
@@ -127,7 +128,13 @@ const AddFriendScreen = () => {
         }
     })
 
+    const dismissKeyboard = () => {
+        Keyboard.dismiss();
+      };
+    
+
     return (
+        <TouchableWithoutFeedback onPress={dismissKeyboard}>
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                               style={styles.container}>
 
@@ -186,6 +193,7 @@ const AddFriendScreen = () => {
             
 
         </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
     )
 }
 
