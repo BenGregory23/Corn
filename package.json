@@ -36,7 +36,8 @@
     "react-native-sensors": "^7.3.6",
     "react-native-web": "~0.18.11",
     "react-redux": "^8.0.7",
-    "redux": "^4.2.1"
+    "redux": "^4.2.1",
+    "expo-haptics": "~12.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

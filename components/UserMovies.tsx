@@ -12,6 +12,7 @@ import RemoveMovies from "./RemoveMovies";
 import {FR, EN} from "../lang/lang";
 import AnimatedLottieView from 'lottie-react-native'
 import UserGenres from "./UserGenres";
+import * as Haptics from 'expo-haptics';
 
 
 
@@ -224,6 +225,9 @@ const UserMovies = ({movies}) => {
           }}
           delayLongPress={200}
           onLongPress={() => {
+
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
             if(moviesToRemove.includes(item)){
               setMoviesToRemove(moviesToRemove.filter(movie => movie !== item))
               return;

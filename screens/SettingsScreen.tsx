@@ -11,6 +11,7 @@ import Preferences from '../components/Preferences';
 import {FR, EN} from "../lang/lang";
 import {setLanguage} from "../redux/actions/langActions";
 import { storeData, getData } from '../utils/asyncStore';
+import * as Haptics from 'expo-haptics';
 
 const SettingsScreen = ({navigation}) => {
     const dispatch = useDispatch();
@@ -100,6 +101,7 @@ const SettingsScreen = ({navigation}) => {
        
             <View style={styles.bigButtonContainer}>
                 <TouchableOpacity style={styles.bigButton} onPress={() => {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                     
                     storeData("lightMode", String(!lightMode));
 
@@ -111,6 +113,7 @@ const SettingsScreen = ({navigation}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.bigButton} onPress={ () =>  {
+                    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                     dispatch(setLanguage((language == "EN") ? "FR" : "EN"));
                 }}>
                     <Text style={[styles.buttonText, {fontSize: 22}]}>{(language == "EN") ? "English" : "Français"}</Text>
