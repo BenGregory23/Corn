@@ -21,6 +21,9 @@ export const EN = {
         "Matching your preferences...",
         "Searching for movie gems...",
     ],
+    // Settings content
+    movieProviders: "Movie providers",
+    movieProvidersText: "You can select the movie providers you have access to. This way, the movies we will recommend will be available on these platforms.",
 };
 
 export const FR = {
@@ -46,4 +49,7 @@ export const FR = {
         "Chargement de vos préférences...",
         "À la recherche de pépite...",
     ],
+      // Settings content
+      movieProviders: "Fournisseurs de contenu",
+      movieProvidersText: "Vous pouvez sélectionner les fournisseurs de contenu auxquels vous avez accès. Ainsi, les films que nous vous proposerons seront disponibles sur ces plateformes.",
 }

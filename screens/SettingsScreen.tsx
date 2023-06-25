@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { View, ScrollView, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { ChevronLeft } from 'lucide-react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserConnected } from '../redux/actions/userActions';
@@ -10,6 +10,7 @@ import {lightTheme, darkTheme} from "../theme/theme";
 import Preferences from '../components/Preferences';
 import {FR, EN} from "../lang/lang";
 import {setLanguage} from "../redux/actions/langActions";
+import { storeData, getData } from '../utils/asyncStore';
 
 const SettingsScreen = ({navigation}) => {
     const dispatch = useDispatch();
@@ -32,6 +33,8 @@ const SettingsScreen = ({navigation}) => {
             paddingTop: 40,
             flex: 1,
             backgroundColor: theme.background,
+          
+   
         },
         header:{
             justifyContent: 'flex-start',
@@ -47,10 +50,27 @@ const SettingsScreen = ({navigation}) => {
             margin: 0,
 
         },
+        bigButtonContainer:{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            alignItems: "center",
+            margin: 10,
+        },
+        bigButton:{
+            backgroundColor: theme.button,
+            paddingVertical: 30,
+            paddingHorizontal: 30,
+            borderRadius: 12,
+            margin: 10,
+            height: Dimensions.get('window').width / 2 - 50,
+            width: Dimensions.get('window').width / 2 - 50,
+            justifyContent: "center",
+            alignItems: "center",
+        },
         button:{
             backgroundColor: theme.button,
-            paddingVertical: 15,
-            paddingHorizontal: 10,
+            paddingVertical: 20,
+            paddingHorizontal: 30,
             borderRadius: 12,
             margin: 10,
             justifyContent: "center",
@@ -69,7 +89,7 @@ const SettingsScreen = ({navigation}) => {
 
 
     return(
-        <View style={styles.container}>
+        <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: 120}}>
             <View style={styles.header}>
                 <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Movies')}>
                     <ChevronLeft size={30} color={theme.text} />
@@ -77,26 +97,36 @@ const SettingsScreen = ({navigation}) => {
                 <Text style={styles.title}>{lang.settings}</Text>
             </View>
 
+       
+            <View style={styles.bigButtonContainer}>
+                <TouchableOpacity style={styles.bigButton} onPress={() => {
+                    
+                    storeData("lightMode", String(!lightMode));
+
+                    dispatch(setLightMode(!lightMode));
+                }}>
+                    {
+                        lightMode === true ? <Moon size={40} color={theme.buttonTextColor} /> : <Sun size={40} color={theme.buttonTextColor} />
+                    }
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.bigButton} onPress={ () =>  {
+                    dispatch(setLanguage((language == "EN") ? "FR" : "EN"));
+                }}>
+                    <Text style={[styles.buttonText, {fontSize: 22}]}>{(language == "EN") ? "English" : "Français"}</Text>
+                </TouchableOpacity>
+            </View>
+        
+
+            
+
+
             <Preferences theme={theme}/>
-
-            <TouchableOpacity style={styles.button} onPress={() => {
-                dispatch(setLightMode(!lightMode));
-            }}>
-                {
-                    lightMode === true ? <Moon size={30} color={theme.buttonTextColor} /> : <Sun size={30} color={theme.buttonTextColor} />
-                }
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.button} onPress={ () =>  {
-                dispatch(setLanguage((language == "EN") ? "FR" : "EN"));
-            }}>
-                <Text style={styles.buttonText}>{(language == "EN") ? "English" : "Français"}</Text>
-            </TouchableOpacity>
 
             <TouchableOpacity style={styles.button} onPress={ () =>  logOut()}>
                 <Text style={styles.buttonText}>{lang.logout}</Text>
             </TouchableOpacity>
-        </View>
+        </ScrollView>
     )
 }
 

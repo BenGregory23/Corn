@@ -175,7 +175,9 @@ const AddFriendScreen = () => {
                             <TouchableOpacity style={styles.button} onPress={addFriend}>
                                     <Text style={styles.text}>{lang.add}</Text>
                                 </TouchableOpacity>
-                            <TouchableOpacity style={styles.backButton} onPress={goBack}>
+                            <TouchableOpacity style={styles.backButton} onPress={goBack}
+                                
+                            >
                                 <CornerDownLeft color={theme.text}/>
                             </TouchableOpacity>
                 </View>  

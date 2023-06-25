@@ -16,6 +16,8 @@ import { setUserConnected, setUser } from '../redux/actions/userActions';
 import Loader from '../components/Loader';
 import {darkTheme, lightTheme} from "../theme/theme";
 import { SafeAreaView } from 'react-native';
+import { getData } from '../utils/asyncStore';
+import { setLightMode } from '../redux/actions/themeActions';
 
 
 
@@ -46,8 +48,15 @@ const Navigation = () => {
       }
     })
 
-    
-
+    getData("lightMode").then((res) => {
+      console.log("Navigation lightMode",res);
+      if(res === "true"){
+        dispatch(setLightMode(true));
+      }
+      else{
+        dispatch(setLightMode(false));
+      }
+    })
   }, [userConnected])
 
   
