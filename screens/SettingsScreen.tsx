@@ -60,7 +60,7 @@ const SettingsScreen = ({navigation}) => {
         bigButton:{
             backgroundColor: theme.button,
             paddingVertical: 30,
-            paddingHorizontal: 30,
+            paddingHorizontal: 20,
             borderRadius: 12,
             margin: 10,
             height: Dimensions.get('window').width / 2 - 50,
