@@ -1,5 +1,5 @@
 import { Settings2 } from 'lucide-react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { View, Text, StyleSheet, Image, Dimensions} from 'react-native';
 import { FR, EN } from '../lang/lang';
 import { useSelector } from 'react-redux';
@@ -8,6 +8,8 @@ import disney from '../assets/disney.png';
 import netflix from '../assets/netflix.png';
 import prime from '../assets/prime.png';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import * as Haptics from 'expo-haptics';
+import { getData, storeData } from '../utils/asyncStore';
 
 
 
@@ -17,6 +19,21 @@ const Preferences = ({theme}) => {
     const language = useSelector(state => state.appReducer.language);
 
     const lang = (language == "EN") ? EN : FR;
+
+
+    const [userMovieProviders, setUserMovieProviders] = useState([]);
+
+
+    useEffect(() => {
+        console.log("Preferences mounted");
+        // get providers from async storage 
+        // @ts-ignore
+        getData("userMovieProviders").then((data) => {
+            if(data != null){
+                setUserMovieProviders(JSON.parse(data));
+            }
+        });
+    }, []);
 
     const movieProviders = [
         {
@@ -41,7 +58,6 @@ const Preferences = ({theme}) => {
         },       
     ]
 
-    const [userMovieProviders, setUserMovieProviders] = useState(["Netflix", "Disney+"]);
 
     const styles = StyleSheet.create({
         container: {
@@ -95,6 +111,21 @@ const Preferences = ({theme}) => {
     });
 
 
+    const updateProviders = (provider:string) => {
+        if(userMovieProviders.includes(provider)){
+            // remove
+            // @ts-ignore
+            storeData("userMovieProviders", JSON.stringify(userMovieProviders.filter((item) => item != provider)));
+            setUserMovieProviders(userMovieProviders.filter((item) => item != provider));
+        }else{
+            // store 
+            // @ts-ignore
+            storeData("userMovieProviders", JSON.stringify([...userMovieProviders, provider]));
+            setUserMovieProviders([...userMovieProviders, provider]);
+        }
+    }
+
+
     return(
         <View style={styles.container}>
             {
@@ -112,11 +143,8 @@ const Preferences = ({theme}) => {
                         return(
                             <TouchableHighlight key={index} style={[styles.provider, (userMovieProviders.includes(provider.Name)) ? styles.active : null]}
                             onPress={() => {
-                                if(userMovieProviders.includes(provider.Name)){
-                                    setUserMovieProviders(userMovieProviders.filter((item) => item != provider.Name));
-                                }else{
-                                    setUserMovieProviders([...userMovieProviders, provider.Name]);
-                                }
+                                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+                                updateProviders(provider.Name);
                             }}
                             >
                                 <Image source={provider.Logo} style={{width: 45, height: 45, marginRight: 10}} />
