@@ -1,7 +1,7 @@
 
 # Corn
 
-Application React-Native pour savoir quoi regarder avec un ami. Un peu comme un tinder pour des films. 
+L'application est un projet développé en React-Native qui facilite le choix de films à regarder avec un ami. Elle utilise un système de swipes pour rendre la décision plus simple et agréable.
 
 
 ![App Banner](https://github.com/sainteTrinity/Corn/raw/main/sketchs/banner.png)
