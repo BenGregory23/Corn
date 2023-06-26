@@ -4,6 +4,9 @@
 Application React-Native pour savoir quoi regarder avec un ami. Un peu comme un tinder pour des films. 
 
 
+![App Banner](https://github.com/sainteTrinity/Corn/raw/main/assets/banner.png)
+
+
 
 ## Features
 
