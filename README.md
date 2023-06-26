@@ -24,5 +24,5 @@ Application React-Native pour savoir quoi regarder avec un ami. Un peu comme un 
 
 - [@BenGregory23](https://www.github.com/BenGregory23)
  
-- [@Leopold]("https://www.github.com/BenGregory23")
+- [@Leopold]("https://www.github.com/LeoLapendery")
 
