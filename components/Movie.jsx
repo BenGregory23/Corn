@@ -5,12 +5,16 @@ import BackgroundImage from './BackgroundImage';
 import Loader from './Loader';
 import { useSelector, useDispatch } from 'react-redux';
 import { addUserMovie } from '../redux/actions/userMoviesAction';
+import AnimatedLottieView from "lottie-react-native"
 
 const Movie = () => {
  
   const [movies, setMovies] = useState([]);
   const [loaded, setLoaded] = useState(false)
   const [cardIndexState, setCardIndexState] = useState(0);
+
+  // add ref for the lottie
+  const lottieRef = useRef(null);
 
   const user = useSelector(state => state.appReducer.user);
   const dispatch = useDispatch();
@@ -25,9 +29,11 @@ const Movie = () => {
 
   
   const swipeRight = (title, poster_path, id) => {
+   
  
-
+    lottieRef.current.play();
     dispatch(addUserMovie(user._id,title, poster_path,id));
+
   }
 
  
@@ -57,9 +63,18 @@ const Movie = () => {
         <Loader/>
     )
   }
-  
+
   return (
     <View style={styles.container}>
+       <AnimatedLottieView source={require("../assets/success.json")}
+       loop={false} 
+        ref={lottieRef}
+        onAnimationFinish={() => {lottieRef.current.reset();}}
+        duration={1000}             
+        resizeMode='cover'
+                                    style={{width: 300, height: 150, position: "absolute", top: 50,
+                                    zIndex: 10,
+                                    }}/>
     
       {//<Image style={styles.backgroundImage} source={{uri: `https://image.tmdb.org/t/p/w500/${movies[cardIndexState].backdrop_path}`}} blurRadius={6}/>
 }
@@ -137,6 +152,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     margin: 0,
     borderRadius: 25,
+    zIndex: 1,
   },
   image: {
     width: Dimensions.get('window').width * 0.9,
