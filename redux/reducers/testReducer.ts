@@ -3,6 +3,7 @@ import appReducer from "./appReducer";
 // Mocking values
 const initialState = {
     userMovies: [],
+    userFriends: [],
     userConnected: false,
     user: {
         _id : "",
