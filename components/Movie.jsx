@@ -6,12 +6,15 @@ import Loader from './Loader';
 import { useSelector, useDispatch } from 'react-redux';
 import { addUserMovie } from '../redux/actions/userMoviesAction';
 import AnimatedLottieView from "lottie-react-native"
+import { URL_BACKEND } from '../constants/constants';
+import { getValueFor } from '../utils/secureStore';
 
 const Movie = () => {
  
   const [movies, setMovies] = useState([]);
   const [loaded, setLoaded] = useState(false)
   const [cardIndexState, setCardIndexState] = useState(0);
+  const [animateSwipeRight, setAnimateSwipeRight] = useState(false);
 
   // add ref for the lottie
   const lottieRef = useRef(null);
@@ -19,10 +22,12 @@ const Movie = () => {
   const user = useSelector(state => state.appReducer.user);
   const dispatch = useDispatch();
 
-- 
+ 
 
   useEffect(() => {
+
     if(loaded == false){
+  
       fetchRandomMovies();
     }
   }, [loaded]);
@@ -36,16 +41,30 @@ const Movie = () => {
 
   }
 
+
+
+
  
   const fetchRandomMovies = async () => {
     try {
-      const url = `https://evening-shore-83627.herokuapp.com/random/${user._id}`;
+      const url = URL_BACKEND + '/movies/random/' + user._id;
+      
+      
 
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + getValueFor('token')
+        },
+      });
+     
       const data = await response.json();
+      // log the length
+     
 
       if (response.ok) {
-       
+        console.log(data)
         setLoaded(false); // Reset loaded state to false
         setMovies(data); // Set movies state to the results
         
@@ -66,19 +85,32 @@ const Movie = () => {
 
   return (
     <View style={styles.container}>
-       <AnimatedLottieView source={require("../assets/success.json")}
+      <View style={{
+        position: "absolute",
+        top: 150,
+        display: animateSwipeRight ? "flex" : "none",
+        zIndex: 10,
+        
+      }}>
+       <AnimatedLottieView source={require("../assets/popcorn.json")}
        loop={false} 
         ref={lottieRef}
-        onAnimationFinish={() => {lottieRef.current.reset();}}
-        duration={1000}             
-        resizeMode='cover'
-                                    style={{width: 300, height: 150, position: "absolute", top: 50,
+        onAnimationFinish={() => {
+          setAnimateSwipeRight(false);
+          lottieRef.current.reset();
+        }}
+        duration={1500}
+        speed={0.5}
+        resizeMode='contain'
+                                    style={{width: 300, height: 150, 
                                     zIndex: 10,
+                                    
                                     }}/>
+      </View>
     
       {//<Image style={styles.backgroundImage} source={{uri: `https://image.tmdb.org/t/p/w500/${movies[cardIndexState].backdrop_path}`}} blurRadius={6}/>
 }
-      <BackgroundImage poster_path={movies[cardIndexState].poster} />
+      <BackgroundImage poster_path={movies[cardIndexState].poster_path} />
       <View style={styles.swiper}>
           <Swiper
             cards={movies}
@@ -87,8 +119,7 @@ const Movie = () => {
               
                 return ( 
                     <View style={styles.card}>
-
-                        <Image style={styles.image} source={{uri: `https://image.tmdb.org/t/p/w500/${card.poster}`}}/>
+                        <Image style={styles.image} source={{uri: `https://image.tmdb.org/t/p/w500/${card.poster_path}`}}/>
                     </View>
                 )
             }}
@@ -100,7 +131,8 @@ const Movie = () => {
               }
             }}
             onSwipedRight={(cardIndex, card) => {
-              swipeRight(card.title, card.poster, card.id)
+              setAnimateSwipeRight(true);
+              swipeRight(card.title, card.poster_path, card.id)
             }}
             onSwipedAll={() => {
               setCardIndexState(0)
