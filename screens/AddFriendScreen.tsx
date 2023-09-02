@@ -13,11 +13,12 @@ import {darkTheme, lightTheme} from "../theme/theme"
 import {TouchableOpacity} from "react-native-gesture-handler"
 import AnimatedLottieView from "lottie-react-native"
 import {useState, useRef} from "react"
-import URL_BACKEND from "../constants/constants"
+import {URL_BACKEND} from "../constants/constants"
 import store from "../redux/store"
 import {CornerDownLeft} from "lucide-react-native"
 import {useNavigation} from "@react-navigation/native";
 import {FR, EN} from "../lang/lang";
+import { getValueFor } from "../utils/secureStore"
 
 
 
@@ -41,13 +42,22 @@ const AddFriendScreen = () => {
 
 
     const addFriend = () => {
+        console.log(friendMail, user._id)
         if (friendMail === "") {
             console.log("Please select a friend")
         } else {
             fetch(URL_BACKEND + `/users/${user._id}/friends`, {
                 method: 'POST',
-                body: friendMail
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + getValueFor('token')
+                },
+                body: JSON.stringify
+                ({
+                    email: friendMail
+                })
             }).then(response => {
+                
                
                 if (response.status === 200) {
                     setSuccess(true);
