@@ -1,7 +1,8 @@
-import { FETCH_USER_MOVIES, SET_USER_CONNECTED, SET_USER, SET_LIGHT_MODE, REMOVE_USER_MOVIE, ADD_USER_MOVIE, SET_LANGUAGE } from "../constants"
+import { FETCH_USER_MOVIES, SET_USER_CONNECTED, SET_USER, SET_LIGHT_MODE, REMOVE_USER_MOVIE, ADD_USER_MOVIE, SET_LANGUAGE, FETCH_USER_FRIENDS } from "../constants"
 
 const initialState = {
     userMovies: [],
+    userFriends: [],
     userConnected: false,
     user: {
         _id : "",
@@ -47,6 +48,12 @@ const appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 language: action.payload
+            }
+        case FETCH_USER_FRIENDS:
+            console.log('reducer',action.payload);
+            return {
+                ...state,
+                userFriends: action.payload
             }
         default:
             return state;
