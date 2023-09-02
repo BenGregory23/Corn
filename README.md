@@ -19,6 +19,10 @@ Corn est un projet développé en React-Native qui facilite le choix de films à
 - Cross platforme
 - Thème sombre/clair
 
+## Soon available
+
+**Soon available on IOS and Android!!**
+
 
 ## Authors
 
