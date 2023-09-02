@@ -26,7 +26,7 @@ const MoviesScreen = ({navigation}) => {
     const dispatch = useDispatch();
 
     const [loaded, setLoaded] = useState(false);
-    const lottieRef = useRef<AnimatedLottieView|null>(null);
+    //const lottieRef = useRef<AnimatedLottieView|null>(null);
 
     // @ts-ignore
     const language = useSelector( state => state.appReducer.language);
@@ -40,23 +40,9 @@ const MoviesScreen = ({navigation}) => {
       loadMovies();
     },[dispatch]);
 
+    
 
-    useEffect(() => {
-        if (lottieRef.current) {
-        setTimeout(() => {
-            lottieRef.current?.reset();
-            lottieRef.current?.play();
-        }, 100);
-        }
-    }, [lottieRef.current]);
-
-    const handleRefresh = () => {
-        const loadMovies = async () =>{
-            await dispatch(fetchUserMovies(user._id));
-            setLoaded(true)
-        }
-        loadMovies();
-    }
+   
 
     const goToSettings = () => {
         navigation.navigate("Settings");
@@ -68,7 +54,7 @@ const MoviesScreen = ({navigation}) => {
 
     const styles = StyleSheet.create({
         container: {
-            paddingTop: 40,
+            paddingTop: 0,
             flex: 1,
             backgroundColor: theme.background,
         } ,
@@ -80,30 +66,41 @@ const MoviesScreen = ({navigation}) => {
         },header:{
             alignItems: 'center',
             justifyContent: 'center',
-            minHeight: 300,
+            minHeight: 100,
+            paddingTop: 50,
             width: "100%",
+            
         },
         settingsButton:{
-            top:0,
-            right:0,
+            position: "absolute",
+            top:45,
+            left:10,
             margin: 20,
             zIndex: 100,
-        }
+        },
+        
     })
 
     return(
         <View style={{flex:1, backgroundColor: theme.background}}>
-                <View style={styles.container}
-                
-                    //contentContainerStyle={{paddingBottom: 110}}
-                >       
-        
-            <TouchableOpacity onPress={goToSettings} style={styles.settingsButton}>
-                <Settings size={30} color={theme.text} />
-            </TouchableOpacity>
+               <TouchableOpacity onPress={goToSettings} style={styles.settingsButton}>
+                    <Settings size={30} color={theme.text} />
+                </TouchableOpacity>
 
-            <UserMovies movies={userM} />
-        </View>
+            <View style={styles.header}>
+                <Text style={styles.Title}>Watchlist</Text>
+            </View>
+            <View style={styles.container}>       
+        
+             
+
+               
+                
+
+                <UserMovies movies={userM} />
+
+            </View>
+
         </View>
         
         

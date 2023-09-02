@@ -6,8 +6,8 @@ import { StyleSheet, TouchableHighlight, ScrollView } from 'react-native'
 import FriendCard from '../components/FriendCard'
 import "../assets/speaker.json"
 import { Plus, UserPlus2 } from 'lucide-react-native'
-import URL_BACKEND from '../constants/constants'
-import { useSelector } from 'react-redux'
+import {OLD_URL_BACKEND} from '../constants/constants'
+import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native-gesture-handler'
 
 import { darkTheme, lightTheme} from "../theme/theme";
@@ -15,6 +15,8 @@ import Loader from '../components/Loader'
 import AnimatedLottieView from "lottie-react-native";
 import UserGenres from "../components/UserGenres";
 import {FR, EN} from "../lang/lang";
+import { fetchUserFriends } from '../redux/actions/userFriendActions'
+
 
 const FriendsScreen = ({navigation}) => {
 
@@ -23,20 +25,18 @@ const FriendsScreen = ({navigation}) => {
 
     // @ts-ignore
     const user = useSelector(state => state.appReducer.user)
+    // @ts-ignore
+    const userFriends = useSelector(state => state.appReducer.userFriends)
+    const dispatch = useDispatch();
     
 
 
     useEffect(() => {
 
         if(!loaded){
-            fetch(URL_BACKEND + `/users/${user._id}/friends`,{
-                method: 'GET'
-            })
-            .then((response) => response.json()).then(response => {
-                // @ts-ignore
-                setFriends(response)
-                setLoaded(true)
-            })
+            dispatch(fetchUserFriends(user._id))
+            setFriends(userFriends);
+            setLoaded(true);  
         }
 
 
@@ -117,7 +117,7 @@ const FriendsScreen = ({navigation}) => {
                 <UserPlus2 color={theme.buttonTextColor} width={30} height={30}/>
             </TouchableOpacity>
 
-            <FlatList data={friends} renderItem={renderItem}/>
+            <FlatList data={userFriends} renderItem={renderItem}/>
         </View>
     )
 

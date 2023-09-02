@@ -16,7 +16,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { setUserConnected, setUser } from '../redux/actions/userActions';
-import URL_BACKEND from '../constants/constants';
+import {URL_BACKEND} from '../constants/constants';
 import sha256 from 'crypto-js/sha256';
 import { save } from '../utils/secureStore';
 
@@ -53,9 +53,10 @@ const LoginScreen = ({ navigation }) => {
     }).then((response) => {
       if (response.status === 200) {
         response.json().then((data) => {
+          save('token', data.token)
           save('userConnected', 'true');
-          save('user', JSON.stringify(data));
-          dispatch(setUser({ email: email, _id: data._id }));
+          save('user', JSON.stringify(data.user));
+          dispatch(setUser({ email: email, _id: data.user._id }));
           dispatch(setUserConnected(true));
         });
       } else {

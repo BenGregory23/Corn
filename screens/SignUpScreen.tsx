@@ -16,6 +16,7 @@ import { useState } from 'react';
 
 import { ActivityIndicator } from 'react-native';
 import sha256 from 'crypto-js/sha256';
+import { URL_BACKEND } from '../constants/constants';
 
 const SignUpScreen = ({ navigation }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
@@ -34,7 +35,7 @@ const SignUpScreen = ({ navigation }) => {
   }, []);
 
   const handleSignUp = () => {
-    const url = 'https://evening-shore-83627.herokuapp.com/register';
+    const url = URL_BACKEND + '/register';
 
     if (email === '' || password === '' || name === '') {
       alert('Please fill in all fields');
@@ -44,18 +45,17 @@ const SignUpScreen = ({ navigation }) => {
     const hashedPassword = sha256(password).toString();
 
     fetch(
-      url +
-        '?email=' +
-        email +
-        '&password=' +
-        hashedPassword +
-        '&name=' +
-        name,
+      url ,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          email: email,
+          password: hashedPassword,
+          name: name,
+        }),
       }
     ).then((data) => {
       navigation.replace('Login');

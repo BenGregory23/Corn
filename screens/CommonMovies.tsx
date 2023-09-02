@@ -9,7 +9,7 @@ import {
     Dimensions,
 } from "react-native";
 import CustomModal from "../components/CustomModal";
-import URL_BACKEND from "../constants/constants";
+import {OLD_URL_BACKEND, URL_BACKEND} from "../constants/constants";
 import {ChevronLeft} from "lucide-react-native";
 import Loader from "../components/Loader";
 import {useNavigation} from "@react-navigation/native";
@@ -18,6 +18,7 @@ import {useSelector} from "react-redux";
 import store from "../redux/store";
 import {Switch} from "react-native-gesture-handler";
 import {FR, EN} from "../lang/lang";
+import { getValueFor } from "../utils/secureStore";
 
 const CommonMovies = ({route}) => {
     const navigation = useNavigation();
@@ -47,17 +48,31 @@ const CommonMovies = ({route}) => {
 
     useEffect(() => {
         if (dataLoaded.friend !== true) {
-            fetch(URL_BACKEND + `/users/${route.params.id}/movies`)
-                .then((res) => res.json())
-                .then((data) => {
+            fetch(URL_BACKEND + `/users/${route.params.id}/movies`,{
+                method: "GET",
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + getValueFor("token"),
+                }}
+            ).then((res) => res.json())
+            .then((data) => {
+                    console.log(data);
                     setFriendMovies(data);
                     setDataLoaded({...dataLoaded, friend: true});
                     setDisplayedMovies(data);
                 });
+
+                
         }
 
         if (dataLoaded.user !== true) {
-            fetch(URL_BACKEND + `/users/${store.getState().appReducer.user._id}/movies`)
+            fetch(URL_BACKEND + `/users/${store.getState().appReducer.user._id}/movies`,{
+                method: "GET",
+                headers:{
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + getValueFor("token")
+                }
+            })
                 .then((res) => res.json())
                 .then((data) => {
                     setUserMovies(data);
@@ -78,6 +93,9 @@ const CommonMovies = ({route}) => {
 
 
     const getCommonMovies = () => {
+        if (userMovies.length === 0 || friendMovies.length === 0) {
+            return;
+        }
         const commonMovies = userMovies.filter((userMovie) =>
             friendMovies.some((friendMovie) => friendMovie.id_tmdb === userMovie.id_tmdb)
         );
@@ -213,7 +231,7 @@ const CommonMovies = ({route}) => {
                 />
             </View>
 
-            <CustomModal visible={isModalOpen} onClose={closeModal} title={""}></CustomModal>
+           
         </View>
     );
 };
