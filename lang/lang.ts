@@ -24,6 +24,7 @@ export const EN = {
     // Settings content
     movieProviders: "Movie providers",
     movieProvidersText: "You can select the movie providers you have access to. This way, the movies we will recommend will be available on these platforms.",
+    addMovies: "Add some movies!"
 };
 
 export const FR = {
@@ -52,4 +53,5 @@ export const FR = {
       // Settings content
       movieProviders: "Fournisseurs de contenu",
       movieProvidersText: "Vous pouvez sélectionner les fournisseurs de contenu auxquels vous avez accès. Ainsi, les films que nous vous proposerons seront disponibles sur ces plateformes.",
+      addMovies: "Ajouter des films !"
 }
