@@ -1,10 +1,10 @@
 import Loader from "./Loader";
 import { View, ScrollView, Text, StyleSheet, Image, Platform, Dimensions, TouchableHighlight, Pressable, TouchableOpacity } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import URL_BACKEND from "../constants/constants";
+
+
 import { useSelector } from "react-redux";
 import {darkTheme, lightTheme} from "../theme/theme";
-import {useState, useRef} from "react"
+import {useState} from "react"
 import CustomModal from "./CustomModal";
 import { useDispatch } from "react-redux";
 import { removeUserMovie } from "../redux/actions/userMoviesAction";
@@ -13,6 +13,7 @@ import {FR, EN} from "../lang/lang";
 import AnimatedLottieView from 'lottie-react-native'
 import UserGenres from "./UserGenres";
 import * as Haptics from 'expo-haptics';
+import React from "react";
 
 
 
@@ -35,7 +36,8 @@ const UserMovies = ({movies}) => {
 
   const dispatch = useDispatch();
 
-  const lottieRef = useRef<AnimatedLottieView|null>(null);
+  
+  
 
 
   const closeModal = () => {
@@ -199,8 +201,7 @@ const UserMovies = ({movies}) => {
       StickyHeaderComponent={
         ()=> (
           <View style={styles.header}>
-                    <AnimatedLottieView source={require("../assets/bucket.json")} ref={lottieRef} autoPlay loop style={{width: 150, height: 150, marginLeft:7}}/>    
-                    <Text style={styles.Title}>WATCHLIST</Text>
+                    
                     <UserGenres userId={user._id}/>
             </View>
         )
@@ -254,12 +255,17 @@ const UserMovies = ({movies}) => {
           </Text>
 
           <Text style={modalStyles.overview}>
-            {modalMovie.overview}
+            
+            {
+              // @ts-ignore
+            modalMovie.overview
+            }
           </Text>
 
           <View style={modalStyles.genres}>
 
             {
+              // @ts-ignore
               modalMovie.genres && modalMovie.genres.map((genre, index) => (
                 <View style={modalStyles.genre} key={index}>
                   <Text style={{color:theme.buttonTextColor}}>
@@ -287,7 +293,18 @@ const UserMovies = ({movies}) => {
       
        
     </View>);
-}};
+  }
+  if(movies.length <= 0){
+    return(
+    <View style={styles.container}>
+                    <AnimatedLottieView source={require("../assets/bucket.json")}  autoPlay loop style={{width: 150, height: 150, marginLeft:7}}/>    
+                    <Text style={styles.Title}>{lang.addMovies}</Text>
+             
+    </View>
+    )
+
+  }
+};
 
 
 
