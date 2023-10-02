@@ -6,7 +6,8 @@ export const lightTheme = {
     button: '#34D1BF',
     buttonTextColor: 'white',
     menuBorder: "#e7e7e7",
-    shadow: "black"
+    shadow: "black",
+    segmentedControlBackground: "#e7e7e7",
 };
 
 export const darkTheme = {
@@ -16,5 +17,6 @@ export const darkTheme = {
     button: '#34D1BF',
     buttonTextColor: 'black',
     menuBorder: "#3d3d3d",
-    shadow: "white"
+    shadow: "white",
+    segmentedControlBackground: "#3d3d3d",
 }
