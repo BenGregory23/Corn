@@ -22,6 +22,8 @@ const SettingsScreen = ({navigation}) => {
     // @ts-ignore
     const language = useSelector( state => state.appReducer.language);
     const lang = (language == "EN") ? EN : FR;
+    // @ts-ignore
+    const user = useSelector(state => state.appReducer.user);
 
     const  logOut = () => {
        save("userConnected",false.toString()).then(() => {
@@ -57,6 +59,12 @@ const SettingsScreen = ({navigation}) => {
             alignItems: "center",
             margin: 10,
         },
+        userInfoContainer:{
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            margin: 10,
+            padding: 10,
+        },
         bigButton:{
             backgroundColor: theme.button,
             paddingVertical: 30,
@@ -86,6 +94,14 @@ const SettingsScreen = ({navigation}) => {
             marginRight: 10,
             zIndex: 100,
         },
+        sectionTitle:{
+            color: theme.text,
+            fontSize: 20,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            margin: 0,
+            marginBottom: 10,
+        },
     });
 
 
@@ -95,7 +111,7 @@ const SettingsScreen = ({navigation}) => {
                 <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate('Movies')}>
                     <ChevronLeft size={30} color={theme.text} />
                 </TouchableOpacity>
-                <Text style={styles.title}>{lang.settings}</Text>
+                <Text style={styles.title}>{lang.settingsPage.settings}</Text>
             </View>
 
        
@@ -119,6 +135,14 @@ const SettingsScreen = ({navigation}) => {
                     <Text style={[styles.buttonText, {fontSize: 22}]}>{(language == "EN") ? "English" : "Français"}</Text>
                 </TouchableOpacity>
             </View>
+
+
+            <View style={styles.userInfoContainer}>
+                <Text  style={styles.sectionTitle}>{lang.settingsPage.userInfo}</Text>
+                <Text style={{color: theme.text}}>{user.username}</Text>
+                <Text style={{color: theme.text}}>{user.email}</Text>
+            </View>
+
         
 
             
