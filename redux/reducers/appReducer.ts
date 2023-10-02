@@ -3,6 +3,7 @@ import { FETCH_USER_MOVIES, SET_USER_CONNECTED, SET_USER, SET_LIGHT_MODE, REMOVE
 const initialState = {
     userMovies: [],
     userFriends: [],
+    userGroups: [],
     userConnected: false,
     user: {
         _id : "",
