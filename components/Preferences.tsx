@@ -128,13 +128,9 @@ const Preferences = ({theme}) => {
 
     return(
         <View style={styles.container}>
-            {
-            //<Settings2 size={30} color={theme.text} />
-
-            }
             <View style={styles.section}>
-                <Text  style={styles.sectionTitle}>{lang.movieProviders}</Text>
-                <Text  style={styles.description}>{lang.movieProvidersText}</Text>
+                <Text  style={styles.sectionTitle}>{lang.settingsPage.movieProviders}</Text>
+                <Text  style={styles.description}>{lang.settingsPage.movieProvidersText}</Text>
 
 
                 <View style={{flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "center", width: "100%"}}>
