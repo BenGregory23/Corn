@@ -56,7 +56,7 @@ const LoginScreen = ({ navigation }) => {
           save('token', data.token)
           save('userConnected', 'true');
           save('user', JSON.stringify(data.user));
-          dispatch(setUser({ email: email, _id: data.user._id }));
+          dispatch(setUser({ email: email, _id: data.user._id, username: data.user.name }));
           dispatch(setUserConnected(true));
         });
       } else {
