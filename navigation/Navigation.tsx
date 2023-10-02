@@ -3,7 +3,7 @@ import { View, Dimensions, Animated } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
-import FriendsScreen from '../screens/FriendsScreen';
+import FriendsScreen from '../screens/common/FriendsScreen';
 import MoviesScreen from '../screens/MoviesScreen';
 import { Home, User2, Users2, Clapperboard, LayoutList} from 'lucide-react-native';
 import FriendsNavigator from './FriendsNavigator';

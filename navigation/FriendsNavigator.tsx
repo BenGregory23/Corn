@@ -1,8 +1,8 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import FriendsScreen from "../screens/FriendsScreen";
-import CommonMovies from "../screens/CommonMovies";
-import  AddFriendScreen from "../screens/AddFriendScreen";
+import FriendsScreen from "../screens/common/FriendsScreen";
+import CommonMovies from "../screens/common/CommonMovies";
+import  AddFriendScreen from "../screens/common/AddFriendScreen";
 
 
 export default function FriendsNavigator() {
