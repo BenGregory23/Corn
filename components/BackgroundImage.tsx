@@ -8,20 +8,21 @@ const BackgroundImage = ({ poster_path }) => {
   useEffect(() => {
     const fadeIn = Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 1000,
+      duration: 300,
       useNativeDriver: true,
     });
 
     const fadeOut = Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 1000,
+      duration: 700,
       useNativeDriver: true,
     });
 
     fadeIn.start();
     return () => {
       fadeOut.start(() => {
-      
+        // fade out 
+        fadeAnim.setValue(0);
       });
     };
   }, [fadeAnim, poster_path]);
