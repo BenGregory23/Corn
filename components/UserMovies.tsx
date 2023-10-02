@@ -14,6 +14,7 @@ import AnimatedLottieView from 'lottie-react-native'
 import UserGenres from "./UserGenres";
 import * as Haptics from 'expo-haptics';
 import React from "react";
+import { TextInput } from "react-native-gesture-handler";
 
 
 
@@ -23,6 +24,8 @@ const UserMovies = ({movies}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMovie, setModalMovie] = useState({});
   const [moviesToRemove, setMoviesToRemove] = useState([]);
+  const [search, setSearch] = useState("");
+
 
   // @ts-ignore
   const user = useSelector(state => state.appReducer.user)
@@ -41,10 +44,12 @@ const UserMovies = ({movies}) => {
 
 
   const closeModal = () => {
+    setModalMovie({})
     setIsModalOpen(false);
   }
 
   const showMovieDetails = (movie) => {
+    setIsModalOpen(true)
 
     const url = `https://api.themoviedb.org/3/movie/${movie.id_tmdb}?language=${language == "EN" ? "en-US" : "fr-FR"}`;
     const options = {
@@ -59,7 +64,7 @@ const UserMovies = ({movies}) => {
       .then(res => res.json())
       .then(json => {
         setModalMovie(json)
-        setIsModalOpen(true)
+        
       })
       .catch(err => console.error('error:' + err));
   }
@@ -202,12 +207,13 @@ const UserMovies = ({movies}) => {
         ()=> (
           <View style={styles.header}>
                     
-                    <UserGenres userId={user._id}/>
+                    <TextInput value={search} placeholder="Search" placeholderTextColor={theme.text} style={{ backgroundColor:theme.background, width: "90%", height: 50, borderRadius: 10, padding: 10, fontSize: 18, borderWidth: 1, borderColor: theme.border, color: theme.border}} onChangeText={setSearch} />
             </View>
         )
       }
       stickyHeaderIndices={[0]}
     >
+      
       {movies.map((item, index) => (
         <TouchableHighlight
           style={[styles.movie, moviesToRemove.includes(item) && styles.toRemove]}
@@ -242,7 +248,8 @@ const UserMovies = ({movies}) => {
             style={styles.poster}
           />
         </TouchableHighlight>
-      ))}
+      ))
+      }
     </ScrollView>
 
 
