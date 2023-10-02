@@ -11,6 +11,7 @@ import Loader from '../components/Loader'
 import {darkTheme, lightTheme} from "../theme/theme";
 import {FR, EN} from "../lang/lang";
 import { removeUserMovie } from '../redux/actions/userMoviesAction'
+import ErrorBoundary  from '../components/error/ErrorBoundary'
 
 const MoviesScreen = ({navigation}) => {
     // @ts-ignore
@@ -96,8 +97,11 @@ const MoviesScreen = ({navigation}) => {
 
                
                 
-
-                <UserMovies movies={userM} />
+                <ErrorBoundary>
+                    <UserMovies movies={userM} />
+                </ErrorBoundary>
+               
+           
 
             </View>
 
