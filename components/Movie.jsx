@@ -64,7 +64,7 @@ const Movie = () => {
      
 
       if (response.ok) {
-        console.log(data)
+        
         setLoaded(false); // Reset loaded state to false
         setMovies(data); // Set movies state to the results
         
