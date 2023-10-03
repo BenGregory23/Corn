@@ -1,9 +1,12 @@
+import AnimatedLottieView from "lottie-react-native";
 import React, { Component, ErrorInfo, ReactNode } from "react";
-import { Text } from "react-native";
-import { lightTheme, darkTheme } from "../../theme/theme";
+import { Button, Text, View } from "react-native";
+
+
 
 interface Props {
   children: ReactNode;
+  fallback?: ReactNode;
 }
 
 interface State {
@@ -12,9 +15,9 @@ interface State {
 
 class ErrorBoundary extends Component<Props, State> {
 
-    // @ts-ignore
-    lightMode = useSelector( state => state.appReducer.lightMode);
-    theme = (this.lightMode === true) ? lightTheme : darkTheme;
+    
+
+    
 
   public state: State = {
     hasError: false
@@ -30,10 +33,18 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public render() {
+    
     if (this.state.hasError) {
-      return <Text style={{
-        color: this.theme.text,
-      }}>Sorry.. there was an error</Text>;
+
+        if (this.props.fallback) {
+            return this.props.fallback;
+        }
+        else return (
+        <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+            <AnimatedLottieView source={require("../../assets/speaker.json")} autoPlay loop style={{width: 100, height: 100}}/>
+            <Text style={{color: "white", fontSize: 20, fontWeight: "bold"}}>Something went wrong</Text>
+            <Text style={{color: "white", fontSize: 15}}>Please try again later</Text>
+        </View>);
     }
 
     return this.props.children;
