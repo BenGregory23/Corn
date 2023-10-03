@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
-import {View, Text, StyleSheet, RefreshControl, TouchableOpacity} from "react-native"
+import {View, Text, StyleSheet, Button, TouchableOpacity} from "react-native"
 import AnimatedLottieView from 'lottie-react-native'
 import UserGenres from '../components/UserGenres'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -10,7 +10,7 @@ import { Settings } from 'lucide-react-native'
 import Loader from '../components/Loader'
 import {darkTheme, lightTheme} from "../theme/theme";
 import {FR, EN} from "../lang/lang";
-import { removeUserMovie } from '../redux/actions/userMoviesAction'
+
 import ErrorBoundary  from '../components/error/ErrorBoundary'
 
 const MoviesScreen = ({navigation}) => {
@@ -41,6 +41,7 @@ const MoviesScreen = ({navigation}) => {
       loadMovies();
     },[dispatch]);
 
+  
     
 
    

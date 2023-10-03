@@ -152,7 +152,7 @@ const FriendsScreen = ({navigation}) => {
                     <FlatList data={userFriends} renderItem={renderItem}/>
                 ) : (
                     <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-                        <Text>Groups are coming soon...</Text>
+                        <Text style={{color: theme.text}}>Groups are coming soon...</Text>
                     </View>
                 )
             }

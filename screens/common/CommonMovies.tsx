@@ -19,6 +19,8 @@ import store from "../../redux/store";
 import {Switch} from "react-native-gesture-handler";
 import {FR, EN} from "../../lang/lang";
 import { getValueFor } from "../../utils/secureStore";
+import Help from "../../components/help/Help";
+import AnimatedLottieView from "lottie-react-native";
 
 const CommonMovies = ({route}) => {
     const navigation = useNavigation();
@@ -167,7 +169,7 @@ const CommonMovies = ({route}) => {
             shadowOpacity: 0.25,
             shadowRadius: 10,
             shadowColor: theme.shadow,
-            flexDirection: "row",
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
         },
@@ -201,6 +203,7 @@ const CommonMovies = ({route}) => {
                 <Text style={styles.title}>{lang.sharedMovies}</Text>
             </View>
 
+            
 
             <FlatList
                 numColumns={3}
@@ -224,15 +227,27 @@ const CommonMovies = ({route}) => {
 
 
             <View style={styles.settings}>
-                <Text style={styles.text}>{lang.displaySharedMovies}</Text>
-                <Switch
-                    style={styles.switch}
-                    trackColor={{false: 'white', true: 'white'}}
-                    thumbColor={theme.button}
-                    ios_backgroundColor="#3e3e3e"
-                    onValueChange={toggleSwitch}
-                    value={showCommonMovies}
-                />
+                <View style={{flex:1,flexDirection:"row", alignItems:"center"}}>
+                     <Text style={styles.text}>{lang.sharedMoviesPage.displaySharedMovies}</Text>
+                    <Switch
+                        style={styles.switch}
+                        trackColor={{false: 'white', true: 'white'}}
+                        thumbColor={theme.button}
+                        ios_backgroundColor="#3e3e3e"
+                        onValueChange={toggleSwitch}
+                        value={showCommonMovies}
+                    />
+                    <Help title={"Help"} icon={true} buttonWhite={true}>
+                        <View style={{padding: 10, display: "flex", flexDirection:"column"}}>
+                            <AnimatedLottieView source={require("../../assets/bucket.json")} autoPlay loop width={100} height={100} />
+                            <Text style={{color: theme.text, fontSize: 20, textAlign: "center"}}>
+                                {lang.sharedMoviesPage.help}
+                            </Text>
+                        </View>
+                    </Help>
+                </View>
+                
+               
             </View>
 
            
