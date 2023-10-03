@@ -16,7 +16,7 @@ const Help = ({title, icon, buttonWhite, children}) => {
 
                 {
                     icon === true ? (
-                        <HelpCircle color={buttonWhite ? "white" : "black"} size={30}/>
+                        <HelpCircle color={buttonWhite ? "white" : "black"} size={25}/>
                     ) : (
                         <Text style={{color: "white", marginRight: 10, textDecorationLine: 'underline'}}>
                             Help

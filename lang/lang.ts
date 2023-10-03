@@ -29,8 +29,16 @@ export const EN = {
     sharedMoviesPage: {
         sharedMovies: "Shared Movies",
         displaySharedMovies: "Display shared movies",
-        help: "Choose if you want to see the movies that both you and your friend want to see or all the movies your friend has added to his list"
-    }
+        help: {
+            title: "What is this page?",
+            text: "This page allows you to see the movies you and your friend have in common!",
+            more : "Choose if you want to see the movies that both you and your friend want to see or all the movies your friend has added to his list"
+        }
+    },
+    userMoviesPage: {
+        watchlist: "Watchlist",
+        addMovies: "Add some movies!",
+    },
 };
 
 export const FR = {
@@ -64,7 +72,15 @@ export const FR = {
     },
     sharedMoviesPage: {
         sharedMovies: "Films en commun",
-        displaySharedMovies: "Afficher les films en commun",
-        help: "Choisissez si vous voulez voir les films en commun avec votre ami ou alors tous les films que votre ami a ajouté à sa liste."
-    }
+        displaySharedMovies: "Films en commun",
+        help: {
+            title : "Qu'est-ce que cette page ?",
+            text: "Cette page vous permet de voir les films que vous et votre ami avez en commun !",
+            more : "Choisissez si vous voulez voir les films en commun avec votre ami ou alors tous les films que votre ami a ajouté à sa liste."
+        }
+    },
+    userMoviesPage: {
+        watchlist: "Watchlist",
+        addMovies: "Ajoutes des films !",
+    },
 }

@@ -1,10 +1,7 @@
 import Loader from "./Loader";
-import { View, ScrollView, Text, StyleSheet, Image, Platform, Dimensions, TouchableHighlight, Pressable, TouchableOpacity } from "react-native";
-
-
+import { View, ScrollView, Text, StyleSheet, Image, TouchableHighlight, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
 import {darkTheme, lightTheme} from "../theme/theme";
-import {useState} from "react"
 import CustomModal from "./CustomModal";
 import { useDispatch } from "react-redux";
 import { removeUserMovie } from "../redux/actions/userMoviesAction";
@@ -13,18 +10,24 @@ import {FR, EN} from "../lang/lang";
 import AnimatedLottieView from 'lottie-react-native'
 import UserGenres from "./UserGenres";
 import * as Haptics from 'expo-haptics';
-import React from "react";
+import React, {useRef, useEffect, useState} from "react";
 import { TextInput } from "react-native-gesture-handler";
-
-
-
 
 
 const UserMovies = ({movies}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMovie, setModalMovie] = useState({});
   const [moviesToRemove, setMoviesToRemove] = useState([]);
+
+
+  // test for search
   const [search, setSearch] = useState("");
+  const [filteredMovies, setFilteredMovies] = useState(movies);
+
+  useEffect(() => {
+    console.log(search.toLowerCase())
+    //setFilteredMovies(movies.filter(movie => movie.title.toLowerCase().includes(search.toLowerCase())))
+  }, [search, movies])
 
 
   // @ts-ignore
@@ -39,8 +42,9 @@ const UserMovies = ({movies}) => {
 
   const dispatch = useDispatch();
 
+ 
   
-  
+
 
 
   const closeModal = () => {
@@ -201,23 +205,16 @@ const UserMovies = ({movies}) => {
   return (
       <View style={styles.container}>
        
+       <TextInput placeholder="Search" placeholderTextColor={theme.text} style={{ backgroundColor:theme.background, width: "90%", height: 50, borderRadius: 10, padding: 10, fontSize: 18, borderWidth: 1, borderColor: theme.border, color: theme.border}} onChangeText={setSearch} />
 
     <ScrollView contentContainerStyle={styles.scrollContent}
-      StickyHeaderComponent={
-        ()=> (
-          <View style={styles.header}>
-                    
-                    <TextInput value={search} placeholder="Search" placeholderTextColor={theme.text} style={{ backgroundColor:theme.background, width: "90%", height: 50, borderRadius: 10, padding: 10, fontSize: 18, borderWidth: 1, borderColor: theme.border, color: theme.border}} onChangeText={setSearch} />
-            </View>
-        )
-      }
-      stickyHeaderIndices={[0]}
+      
     >
       
       {movies.map((item, index) => (
         <TouchableHighlight
           style={[styles.movie, moviesToRemove.includes(item) && styles.toRemove]}
-          onPress={() => {
+          onPress={(e) => {
               if(moviesToRemove.length > 0 ){
                  if(moviesToRemove.includes(item)){
                   setMoviesToRemove(moviesToRemove.filter(movie => movie !== item))
@@ -243,12 +240,15 @@ const UserMovies = ({movies}) => {
           }}
           key={index}
         >
-          <Image
+          
+            <Image
             source={{ uri: "https://image.tmdb.org/t/p/w500/" + item.poster }}
             style={styles.poster}
           />
+          
+         
         </TouchableHighlight>
-      ))
+      )).reverse()
       }
     </ScrollView>
 
@@ -305,7 +305,7 @@ const UserMovies = ({movies}) => {
     return(
     <View style={styles.container}>
                     <AnimatedLottieView source={require("../assets/bucket.json")}  autoPlay loop style={{width: 150, height: 150, marginLeft:7}}/>    
-                    <Text style={styles.Title}>{lang.addMovies}</Text>
+                    <Text style={styles.Title}>{lang.userMoviesPage.addMovies}</Text>
              
     </View>
     )

@@ -21,6 +21,7 @@ import {FR, EN} from "../../lang/lang";
 import { getValueFor } from "../../utils/secureStore";
 import Help from "../../components/help/Help";
 import AnimatedLottieView from "lottie-react-native";
+import ErrorBoundary from "../../components/error/ErrorBoundary";
 
 const CommonMovies = ({route}) => {
     const navigation = useNavigation();
@@ -156,11 +157,11 @@ const CommonMovies = ({route}) => {
         settings: {
             zIndex: 100,
             position: "absolute",
-            right: 40,
-            left: 40,
+            right: 30,
+            left: 30,
             bottom: 90,
             backgroundColor: theme.button,
-            padding: 20,
+            padding: 15,
             borderRadius: 10,
             shadowOffset: {
                 width: 0,
@@ -169,12 +170,12 @@ const CommonMovies = ({route}) => {
             shadowOpacity: 0.25,
             shadowRadius: 10,
             shadowColor: theme.shadow,
-            flexDirection: "column",
+            flexDirection: "row",
             justifyContent: "center",
             alignItems: "center",
         },
         text: {
-            color: theme.buttonTextColor,
+            color: theme.text,
             fontSize: 17,
             fontWeight: "bold",
             textAlign: "center",
@@ -200,7 +201,7 @@ const CommonMovies = ({route}) => {
                 }}>
                     <ChevronLeft size={30} color={theme.text}/>
                 </TouchableOpacity>
-                <Text style={styles.title}>{lang.sharedMovies}</Text>
+                <Text style={styles.title}>{lang.sharedMoviesPage.sharedMovies}</Text>
             </View>
 
             
@@ -227,7 +228,7 @@ const CommonMovies = ({route}) => {
 
 
             <View style={styles.settings}>
-                <View style={{flex:1,flexDirection:"row", alignItems:"center"}}>
+                
                      <Text style={styles.text}>{lang.sharedMoviesPage.displaySharedMovies}</Text>
                     <Switch
                         style={styles.switch}
@@ -237,15 +238,37 @@ const CommonMovies = ({route}) => {
                         onValueChange={toggleSwitch}
                         value={showCommonMovies}
                     />
+                    <ErrorBoundary>
                     <Help title={"Help"} icon={true} buttonWhite={true}>
-                        <View style={{padding: 10, display: "flex", flexDirection:"column"}}>
-                            <AnimatedLottieView source={require("../../assets/bucket.json")} autoPlay loop width={100} height={100} />
-                            <Text style={{color: theme.text, fontSize: 20, textAlign: "center"}}>
-                                {lang.sharedMoviesPage.help}
+                        <View style={{padding: 10, display: "flex", flexDirection:"column", alignItems:"center", height: "100%", maxHeight: 300}}>
+                            <AnimatedLottieView
+                                style={{width: 100, height: 100, marginBottom: 20}}
+                                source={require("../../assets/speaker.json")}
+                                autoPlay
+                                loop
+                            />
+                            <Text style={{color: theme.text, fontSize: 20, fontWeight:"bold", textAlign: "center"}}>
+                                {lang.sharedMoviesPage.help.title}
                             </Text>
+
+                            <Text style={{color: theme.text, fontSize: 15, textAlign: "center", marginVertical: 10}}>
+                                {lang.sharedMoviesPage.help.text}
+                            </Text>
+
+
+                            <Text style={{color: theme.text, fontSize: 15, textAlign: "center", marginVertical: 10}}>
+                                {lang.sharedMoviesPage.help.more}
+                            </Text>
+
+                            
+
+                            
+
+
                         </View>
                     </Help>
-                </View>
+                    </ErrorBoundary>
+            
                 
                
             </View>
