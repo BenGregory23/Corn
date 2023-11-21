@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "my-app",
+    "name": "corn.",
     "slug": "my-app",
-    "version": "1.0.0",
+    "version": "0.2.1",
     "orientation": "portrait",
     "icon": "./assets/appIcon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/appSplash.png",
+      "image": "./assets/appIcon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,10 +22,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/appIcon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.benchoco.corn"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/appIcon.png"
     },
     "extra": {
       "eas": {
