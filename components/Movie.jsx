@@ -30,7 +30,7 @@ const Movie = () => {
   
       fetchRandomMovies();
     }
-  }, [loaded]);
+  }, [loaded,movies]);
 
   
   const swipeRight = (title, poster_path, id) => {
@@ -48,14 +48,15 @@ const Movie = () => {
   const fetchRandomMovies = async () => {
     try {
       const url = URL_BACKEND + '/movies/random/' + user._id;
-      
-      
+      const token = await getValueFor('token');
+     
+
 
       const response = await fetch(url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + getValueFor('token')
+          'Authorization': 'Bearer ' + token,
         },
       });
      
@@ -65,7 +66,7 @@ const Movie = () => {
 
       if (response.ok) {
         
-        setLoaded(false); // Reset loaded state to false
+        
         setMovies(data); // Set movies state to the results
         
         setLoaded(true);
@@ -110,23 +111,23 @@ const Movie = () => {
     
       {//<Image style={styles.backgroundImage} source={{uri: `https://image.tmdb.org/t/p/w500/${movies[cardIndexState].backdrop_path}`}} blurRadius={6}/>
 }
-      <BackgroundImage poster_path={movies[cardIndexState].poster_path} />
+      <BackgroundImage poster_path={movies[cardIndexState]?.poster_path} />
       <View style={styles.swiper}>
           <Swiper
             cards={movies}
             
-            renderCard={(card) => {
+            renderCard={(card, cardIndex) => {
               
                 return ( 
                     <View style={styles.card}>
-                        <Image style={styles.image} source={{uri: `https://image.tmdb.org/t/p/w500/${card.poster_path}`}}/>
+                        <Image style={styles.image} source={{uri: `https://image.tmdb.org/t/p/w500/${card?.poster_path}`}}/>
                     </View>
                 )
             }}
             onSwiped={(cardIndex) => {
               setCardIndexState(cardIndex+1)
               
-              if(cardIndex == movies.length - 3){
+              if(cardIndex == movies.length-1){
                 setLoaded(false);
               }
             }}
