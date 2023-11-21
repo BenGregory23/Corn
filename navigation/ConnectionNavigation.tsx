@@ -4,6 +4,8 @@ import SignUpScreen from '../screens/SignUpScreen';
 import LoginScreen from '../screens/LoginScreen';
 import Welcome from '../screens/Welcome';
 import { NavigationContainer } from '@react-navigation/native';
+import 'react-native-gesture-handler';
+
 
 const ConnectionNavigation = () => {
     const Stack = createStackNavigator();

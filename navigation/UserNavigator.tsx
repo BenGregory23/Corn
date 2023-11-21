@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import MoviesScreen from "../screens/MoviesScreen";
 import SettingsScreen from "../screens/SettingsScreen";
-
+import 'react-native-gesture-handler';
 
 export default function UsersNavigator() {
     const Stack = createStackNavigator();
