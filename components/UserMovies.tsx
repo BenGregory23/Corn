@@ -19,15 +19,8 @@ const UserMovies = ({movies}) => {
   const [modalMovie, setModalMovie] = useState({});
   const [moviesToRemove, setMoviesToRemove] = useState([]);
 
+ 
 
-  // test for search
-  const [search, setSearch] = useState("");
-  const [filteredMovies, setFilteredMovies] = useState(movies);
-
-  useEffect(() => {
-    console.log(search.toLowerCase())
-    //setFilteredMovies(movies.filter(movie => movie.title.toLowerCase().includes(search.toLowerCase())))
-  }, [search, movies])
 
 
   // @ts-ignore
@@ -202,11 +195,15 @@ const UserMovies = ({movies}) => {
   })
 
   if(movies.length > 0){
+
+
+
+    
+
   return (
       <View style={styles.container}>
        
-       <TextInput placeholder="Search" placeholderTextColor={theme.text} style={{ backgroundColor:theme.background, width: "90%", height: 50, borderRadius: 10, padding: 10, fontSize: 18, borderWidth: 1, borderColor: theme.border, color: theme.border}} onChangeText={setSearch} />
-
+      
     <ScrollView contentContainerStyle={styles.scrollContent}
       
     >

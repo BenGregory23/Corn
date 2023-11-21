@@ -17,6 +17,7 @@ import UserGenres from "../../components/UserGenres";
 import {FR, EN} from "../../lang/lang";
 import { fetchUserFriends } from '../../redux/actions/userFriendActions'
 import SegmentedControl from '@react-native-segmented-control/segmented-control/js/SegmentedControl.js';
+import ErrorBoundary from '../../components/error/ErrorBoundary'
 
 
 
@@ -149,11 +150,28 @@ const FriendsScreen = ({navigation}) => {
             {
                 
                 (selectedIndex == 0) ? (
+
+
+                    userFriends.length > 2 ? (
                     <FlatList data={userFriends} renderItem={renderItem}/>
-                ) : (
-                    <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
-                        <Text style={{color: theme.text}}>Groups are coming soon...</Text>
+                    ) : (
+                        <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+                        <AnimatedLottieView source={require("../../assets/popcorn.json")} autoPlay loop style={{width: 150, height: 150}} 
+                        
+                        />
+                        <Text style={{color: theme.text, fontSize: 20, margin: 10, fontWeight: "700"}}>{lang.addFriends}</Text>
                     </View>
+                    )
+                ) : (
+                    <ErrorBoundary>
+                         <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+                        <AnimatedLottieView source={require("../../assets/microphone.json")} autoPlay loop style={{width: 150, height: 150}} 
+                        
+                        />
+                        <Text style={{color: theme.text, fontSize: 20, margin: 10, fontWeight: "700"}}>Groups are coming soon...</Text>
+                    </View>
+                    </ErrorBoundary>
+                   
                 )
             }
         </View>
